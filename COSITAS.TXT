@@ -1,0 +1,23 @@
+
+                        <div id="dibujo">
+                            <div id="contenedor-imagen-dibujo" class="container position-absolute">
+                                <!-- style="width: fit-content; top: 18%; left:20%"> -->
+
+                            </div>
+                        </div>
+                        <div id="guiones">
+                            <div id="contenedor-imagen-guion"
+                                class="container position-absolute start-50 translate-middle d-flex justify-content-center">
+                                <!-- style="width: fit-content; position: absolute; top: 78%"> -->
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="letrasEleccion">
+                        <div id="contenedor-botones" class="container position-absolute">
+                            <!-- style=" position: absolute; top: 30%; left: 50%;" -->
+                        </div>
+                    </div>
+
+                    <div id="letrasCorrectas"> </div>
+                    <div id="letrasIncorrectas"> </div>

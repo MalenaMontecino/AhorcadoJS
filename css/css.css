@@ -1,0 +1,18 @@
+body {
+    /*ARREGLAR LA IMAGEN CUANDO SE MINIMIZA*/
+    background-image: url(/images/fondo2.jpg);
+    background-size: 100%;
+
+}
+
+#btn {
+    font-size: 60px;
+
+}
+
+p {
+    display:inline;
+    padding:5px;
+    font-size:100px;
+
+}
