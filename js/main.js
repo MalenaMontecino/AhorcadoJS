@@ -33,18 +33,18 @@ function crearArrayPalabras() {
 function seleccionarPalabraRandom(arrayPalabras) {
     //generar un numero random del 0 al 34
     numeroRandom = Math.floor(Math.random() * 34);
-    console.log(numeroRandom);
+    console.log("Num Random: "+numeroRandom);
 
     // sacar palabra de la array   
     palabraSeleccionada = arrayPalabras[numeroRandom]
-    console.log(palabraSeleccionada)
+    console.log("Palabra seleccionada: "+palabraSeleccionada)
 
 }
 
 function crearGuionesPalabra(palabraSeleccionada) {
     //contar cuantas letras tiene
     longitudPalabra = palabraSeleccionada.length;
-    console.log(longitudPalabra);
+    console.log("Longitud palabra: "+longitudPalabra);
 
     //mostrar tantos guiones como letras
     for (let i = 0; i < longitudPalabra; i++) {
@@ -57,7 +57,12 @@ function crearGuionesPalabra(palabraSeleccionada) {
 
         // Añadir el elemento de imagen al contenedor en el DOM
         let contenedorGuion = document.getElementById("contenedor-guion");
-        // contenedorGuion.style.height = '120px'; 
+       
+
+       
+       // contenedorGuion.style.height ='77px';
+
+         contenedorGuion.style.height = '120px'; 
         contenedorGuion.appendChild(guion);
         guiones.push(guion);
     }
@@ -96,14 +101,7 @@ function crearBotones() {
 
         // función externa porque al estar dentro del bucle siempre recordará la última letra creada (Z)
         //USO DE E.TARGET
-        boton.addEventListener("click", (function (letraClickeada, botonClickeado) {
-            return function () {
-                console.log("Letra seleccionada: " + letraClickeada);
-                comprobarLetraDentroPalabra(letraClickeada, botonClickeado);
-
-            };
-        })(letraActual, boton));
-
+       
         boton.addEventListener("click", (function (letraClickeada, botonClickeado) {
             return function () {
                 console.log("Letra seleccionada: " + letraClickeada);
@@ -122,8 +120,8 @@ function crearBotones() {
 function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
     let letras = palabraSeleccionada.split('');
     letraCorrecta = false;
-    console.log(letras);
-    console.log(letraClickeada.toLowerCase());
+    console.log("Letras: "+letras);
+    console.log("Botón: "+letraClickeada.toLowerCase());
     // letraClickeada.style.marginTop= "16px";
 
     for (let i = 0; i < letras.length; i++) {
@@ -136,7 +134,7 @@ function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
 
         }
     }
-    console.log(letraCorrecta);
+    console.log("Letra correcta: "+letraCorrecta);
     cambiarColorBotones(letraCorrecta, botonClickeado);
     
 }
