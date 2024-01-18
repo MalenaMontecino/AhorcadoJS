@@ -1,6 +1,4 @@
-// crear array 
-// sacar num random y seleccionar palabra random
-// contar num de letras de la palabra y mostrar guiones
+//VARIABLES
 let arrayPalabras;
 let numeroRandom;
 let palabraSeleccionada;
@@ -9,17 +7,19 @@ let imagenesLetras = {}; //no es array, es objeto (para asociar directamente con
 let boton;
 let letraActual;
 let guion;
-let guiones =[];
+let guiones = [];
 let letraCorrecta;
+let errores = 0;
+document.getElementById('contadorErrores').innerHTML = "Nº de errores: 0";
 
+// LLAMADA A FUNCIONES
 crearArrayPalabras();
 seleccionarPalabraRandom(arrayPalabras);
 crearGuionesPalabra(palabraSeleccionada);
 imagenDibujo();
-
-// Llamar a la función para crear los botones al cargar la página
 crearBotones();
 
+//FUNCIONES
 function crearArrayPalabras() {
     arrayPalabras = ['globo', 'mapa', 'viaje', 'mar', 'tierra',
         'avion', 'pais', 'ruta', 'continente', 'oceano',
@@ -49,7 +49,7 @@ function crearGuionesPalabra(palabraSeleccionada) {
     //mostrar tantos guiones como letras
     for (let i = 0; i < longitudPalabra; i++) {
 
-         guion = document.createElement('p');
+        guion = document.createElement('p');
         guion.textContent = "_";
         guion.style.display = 'inline';
         guion.style.padding = '5px';
@@ -57,6 +57,7 @@ function crearGuionesPalabra(palabraSeleccionada) {
 
         // Añadir el elemento de imagen al contenedor en el DOM
         let contenedorGuion = document.getElementById("contenedor-guion");
+        // contenedorGuion.style.height = '120px'; 
         contenedorGuion.appendChild(guion);
         guiones.push(guion);
     }
@@ -65,13 +66,15 @@ function crearGuionesPalabra(palabraSeleccionada) {
 }
 
 function imagenDibujo() {
-    let imagenDibujo = document.createElement("img");
-    imagenDibujo.src = "/images/1.png"
+    // let imagenDibujo = document.createElement("img");
+    let imagenDibujo = document.querySelector("#contenedor-imagen-dibujo img");
+    imagenDibujo.src = `/images/${errores}.png`;
 
     let contenedorImagenDibujo = document.getElementById("contenedor-imagen-dibujo");
     contenedorImagenDibujo.appendChild(imagenDibujo);
 
 }
+
 
 
 function crearBotones() {
@@ -91,14 +94,24 @@ function crearBotones() {
         boton.style.width = "50px";
         boton.style.margin = "5px"; // Agregar margen entre botones
 
-
-      // función externa porque al estar dentro del bucle siempre recordará la última letra creada (Z)
-        boton.addEventListener("click", (function(letraClickeada, botonClickeado) {
-            return function() {
+        // función externa porque al estar dentro del bucle siempre recordará la última letra creada (Z)
+        //USO DE E.TARGET
+        boton.addEventListener("click", (function (letraClickeada, botonClickeado) {
+            return function () {
                 console.log("Letra seleccionada: " + letraClickeada);
                 comprobarLetraDentroPalabra(letraClickeada, botonClickeado);
+
             };
         })(letraActual, boton));
+
+        boton.addEventListener("click", (function (letraClickeada, botonClickeado) {
+            return function () {
+                console.log("Letra seleccionada: " + letraClickeada);
+                comprobarLetraDentroPalabra(letraClickeada, botonClickeado);
+                printErrores(letraCorrecta);
+            };
+        })(letraActual, boton));
+
 
         // Agregar el botón al contenedor
         contenedorBotones.appendChild(boton);
@@ -106,41 +119,82 @@ function crearBotones() {
 
 }
 
-function errores(){
-
-}
-// Funcion para comprobar que si el boton esta en verde que cuando vuelva a clicar que no pase nada
-// Comparar la letra seleccionada con todas las letras de la palabra y decir si esta o No 
 function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
     let letras = palabraSeleccionada.split('');
     letraCorrecta = false;
     console.log(letras);
     console.log(letraClickeada.toLowerCase());
+    // letraClickeada.style.marginTop= "16px";
 
     for (let i = 0; i < letras.length; i++) {
         if (letraClickeada.toLowerCase() == letras[i]) {
             letraCorrecta = true;
-             //QUE NO SE COMA EL MARGIN CUANDO SE COMPLETE LA PALABRA
+            //HACER QUE NO SE COMA EL MARGIN CUANDO SE COMPLETE LA PALABRA
 
             guiones[i].style.fontSize = "50px";
             guiones[i].textContent = letraClickeada;
-            
+
         }
     }
     console.log(letraCorrecta);
     cambiarColorBotones(letraCorrecta, botonClickeado);
-   
+    
 }
 
 
 
-function cambiarColorBotones(letraCorrecta, botonClickeado){
+function cambiarColorBotones(letraCorrecta, botonClickeado) {
     botonClickeado.disabled = true;
-    if(letraCorrecta == true){
+    if (letraCorrecta == true) {
         botonClickeado.classList.remove("btn-light");
         botonClickeado.classList.add("btn-success");
-    } 
+    }
 }
+function printErrores(letraCorrecta) {
+    if (!letraCorrecta) {
+        errores++;
+
+        console.log("Nº Errores: " + errores);
+        document.getElementById('contadorErrores').innerHTML = "Nº de errores: " + errores;
+        if (errores >= 10) {
+            //PONER UN POP UP
+            document.getElementById('contadorErrores').innerHTML = "HAS PERDIDO";
+            popupFuncion('perder');
+            errores = 9;
+
+        }
+        imagenDibujo();
+    }
+}
+
+
+function popupFuncion(resultado) {
+    //juegoEnCurso = false;
+
+    const popup = document.getElementById('popup');
+    popup.style.display = 'block';
+
+    const popupContent = document.getElementById('popupContent');
+
+    if (resultado === 'ganar') {
+        popupContent.innerHTML = document.getElementById('ganar').innerHTML;
+    } else if (resultado === 'perder') {
+        popupContent.innerHTML = document.getElementById('perder').innerHTML;
+    }
+
+    const botones = popupContent.querySelectorAll('button');
+    botones.forEach((boton) => {
+        boton.addEventListener('click', (event) => {
+            const accion = event.target.getAttribute('data-action');
+            if (accion === 'volver') {
+                location.reload();
+            } else if (accion === 'reiniciar') {
+                location.reload();
+            }
+        });
+    });
+}
+
 // Si esta seleccionada sacar posición y ponerla (poner botón en verde )
 // si no esta seleccionada sumar un error y printear dibujo (poner boton en disabled)
 
