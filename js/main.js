@@ -30,13 +30,39 @@ function crearArrayPalabras() {
     }
 
 }
-function timer() {
+// function timer() {
 
+//     let tiempoTranscurrido = 0;
+//     let minutos = 0;
+
+//     temporizador = setInterval(() => {
+//         tiempoTranscurrido++;
+//         if (tiempoTranscurrido == 60){
+//             tiempoTranscurrido = 0;
+//             minutos =+1;
+//         }
+//         document.getElementById('timer').innerHTML = "Tiempo ["+ minutos+ ":" + tiempoTranscurrido + " segundos  ]";
+//     }, 1000);
+// }
+function timer() {
     let tiempoTranscurrido = 0;
+    let minutos = 0;
 
     temporizador = setInterval(() => {
         tiempoTranscurrido++;
-        document.getElementById('timer').innerHTML = "[ " + tiempoTranscurrido + " segundos  ]";
+
+        if (tiempoTranscurrido == 60) {
+            tiempoTranscurrido = 0;
+            minutos++;
+        }
+
+        //PARA EL FORMATO 00:00
+       // verifica si la variable minutos es menor que 10. 
+       //Si es verdadero, se concatena el string "0" con la variable minutos ("0" + minutos), lo que añade un cero a la izquierda.
+        let minutosFormateados = minutos < 10 ? "0" + minutos : minutos;
+        let segundosFormateados = tiempoTranscurrido < 10 ? "0" + tiempoTranscurrido : tiempoTranscurrido;
+
+        document.getElementById('timer').innerHTML = "Tiempo [" + minutosFormateados + ":" + segundosFormateados + "]";
     }, 1000);
 }
 
@@ -169,7 +195,7 @@ function comprobarVictoria() {
     if (ganar == true) {
         console.log("Has ganado");
         //PONER AQUÍ POPUP
-        popupFuncion('ganar');
+       // popupFuncion('ganar');
     }
 }
 
@@ -193,10 +219,10 @@ function printErrores(letraCorrecta) {
         if (errores >= 9) {
             //PONER UN POP UP
             // document.getElementById('contadorErrores').innerHTML = "HAS PERDIDO";
-            popupFuncion('perder');
+          //  popupFuncion('perder');
           console.log("Has perdido");
             errores = 9;
-
+            popup(); 
         }
         imagenDibujo();
     }
@@ -205,38 +231,56 @@ function printErrores(letraCorrecta) {
 
 //NO FUNCIONA
 
-function popupFuncion(resultado) {
-    //juegoEnCurso = false;
-    clearInterval(temporizador);
-    const popup = document.getElementById('popup');
-    popup.style.display = 'block';
+// function popupFuncion(resultado) {
+//     //juegoEnCurso = false;
+//     clearInterval(temporizador);
+//     const popup = document.getElementById('popup');
+//     popup.style.display = 'block';
 
-    const popupContent = document.getElementById('popup-content');
+//     const popupContent = document.getElementById('popup-content');
+//     console.log("resultado",resultado);
+//     if (resultado === 'ganar') {
+//         popupContent.innerHTML = document.getElementById('ganar').innerHTML;
+//     } else if (resultado === 'perder') {
+//         popupContent.innerHTML = document.getElementById('perder').innerHTML;
+//     }
 
-    if (resultado === 'ganar') {
-        popupContent.innerHTML = document.getElementById('ganar').innerHTML;
-    } else if (resultado === 'perder') {
-        popupContent.innerHTML = document.getElementById('perder').innerHTML;
+//     const botones = popupContent.querySelectorAll('button');
+//     botones.forEach((boton) => {
+//         boton.addEventListener('click', (event) => {
+//             const accion = event.target.getAttribute('data-action');
+//             if (accion === 'volver') {
+//                 location.reload();
+//             } else if (accion === 'reiniciar') {
+//                 location.reload();
+//             }
+//         });
+//     });
+// }
+
+
+
+function createPopup(id) {
+    let popupNode = document.querySelector(id);
+    let overlay = popupNode.querySelector(".overlay");
+    let closeBtn = popupNode.querySelector(".close-btn");
+
+    function openPopup() {
+        popupNode.classList.add("active");
     }
 
-    const botones = popupContent.querySelectorAll('button');
-    botones.forEach((boton) => {
-        boton.addEventListener('click', (event) => {
-            const accion = event.target.getAttribute('data-action');
-            if (accion === 'volver') {
-                location.reload();
-            } else if (accion === 'reiniciar') {
-                location.reload();
-            }
-        });
-    });
+    function closePopup() {
+        popupNode.classList.remove("active");
+    }
+
+    overlay.addEventListener("click", closePopup);
+    closeBtn.addEventListener("click", closePopup);
+
+    return openPopup;
 }
 
-
-
-
-
-
+let popup = createPopup("#popup");
+ // Llama a la función openPopup directamente para que se abra el popup al cargar la página
 
 
 
