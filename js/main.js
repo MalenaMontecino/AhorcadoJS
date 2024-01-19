@@ -23,27 +23,48 @@ timer();
 
 //FUNCIONES
 function crearArrayPalabras() {
-    arrayPalabras = {
-        "Países": ["inglaterra", "francia", "italia", "china", "mexico", "japon", "australia", "brasil", "canada", "egipto", "rusia", "india", "argentina"],
-        "Transporte": ["avion", "barco", "tren", "bicicleta", "coche", "camion", "helicoptero", "autobus"],
-        "Cultura": ["traje", "idioma", "costumbre", "baile", "comida", "festividad", "mito", "religion", "creencias", "leyendas"]
-    }
-
+    // arrayPalabras = {
+    //     "Países": ["inglaterra", "francia", "italia", "china", "mexico", "japon", "australia", "brasil", "canada", "egipto", "rusia", "india", "argentina"],
+    //     "Transporte": ["avion", "barco", "tren", "bicicleta", "coche", "camion", "helicoptero", "autobus"],
+    //     "Cultura": ["traje", "idioma", "costumbre", "baile", "comida", "festividad", "mito", "religion", "creencias", "leyendas"]
+    // }
+     arrayPalabras = [
+        { palabra: "inglaterra", categoria: "Países", descripcion: "Inglaterra es un país en Europa conocido por su historia fascinante...", img: "inglaterra.jpg" },
+        { palabra: "francia", categoria: "Países", descripcion: "Francia es famosa por su Torre Eiffel y deliciosa comida...", img: "francia.jpg" },
+        { palabra: "italia", categoria: "Países", descripcion: "Italia es la cuna de la pizza y la pasta, con ciudades llenas de arte y historia...", img: "italia.jpg" },
+        { palabra: "china", categoria: "Países", descripcion: "China es conocida por su Gran Muralla y la celebración del Año Nuevo chino...", img: "china.jpg" },
+        { palabra: "mexico", categoria: "Países", descripcion: "México tiene vibrantes festivales como el Día de los Muertos, comida sabrosa como tacos...", img: "mexico.jpg" },
+        { palabra: "japon", categoria: "Países", descripcion: "Japón es un país en Asia con una rica herencia cultural, incluyendo la ceremonia del té y festivales como Hanami...", img: "japon.jpg" },
+        { palabra: "australia", categoria: "Países", descripcion: "Australia es conocida por su vida silvestre única, como canguros y koalas. Tiene hermosos paisajes...", img: "australia.jpg" },
+        { palabra: "brasil", categoria: "Países", descripcion: "Brasil es famoso por su carnaval vibrante, playas tropicales y selvas exuberantes...", img: "brasil.jpg" },
+        { palabra: "canada", categoria: "Países", descripcion: "Canadá es un país con impresionantes paisajes, como las Montañas Rocosas y las Cataratas del Niágara...", img: "canada.jpg" },
+        { palabra: "egipto", categoria: "Países", descripcion: "Egipto tiene una rica historia con pirámides antiguas y el río Nilo...", img: "egipto.jpg" },
+        { palabra: "rusia", categoria: "Países", descripcion: "Rusia es conocida por su vasto territorio y la Plaza Roja en Moscú...", img: "rusia.jpg" },
+        { palabra: "india", categoria: "Países", descripcion: "India es famosa por sus colores vibrantes, el Taj Mahal y su diversidad cultural...", img: "india.jpg" },
+        { palabra: "argentina", categoria: "Países", descripcion: "Argentina es conocida por su tango, carne asada y paisajes impresionantes como la Patagonia...", img: "argentina.jpg" },
+        // Transporte
+        { palabra: "avion", categoria: "Transporte", descripcion: "Los aviones vuelan por el cielo y nos llevan a lugares lejanos. Son rápidos y emocionantes para viajar...", img: "avion.jpg" },
+        { palabra: "barco", categoria: "Transporte", descripcion: "Los barcos navegan en el agua y pueden llevarnos en emocionantes travesías por océanos y mares...", img: "barco.jpg" },
+        { palabra: "tren", categoria: "Transporte", descripcion: "Los trenes viajan sobre vías férreas y son geniales para explorar paisajes mientras se mueven sobre rieles...", img: "tren.jpg" },
+        { palabra: "bicicleta", categoria: "Transporte", descripcion: "Las bicicletas son divertidas y saludables, ideales para pasear al aire libre y explorar vecindarios...", img: "bicicleta.jpg" },
+        { palabra: "coche", categoria: "Transporte", descripcion: "Los coches nos llevan a todas partes por carreteras. Son rápidos y convenientes para viajar en familia...", img: "coche.jpg" },
+        { palabra: "camion", categoria: "Transporte", descripcion: "Los camiones son vehículos grandes que transportan mercancías por carretera. Son esenciales para el movimiento de bienes en todo el mundo...", img: "camion.jpg" },
+        { palabra: "helicoptero", categoria: "Transporte", descripcion: "Los helicópteros vuelan verticalmente y son útiles para misiones de rescate y transporte en lugares de difícil acceso...", img: "helicoptero.jpg" },
+        { palabra: "autobus", categoria: "Transporte", descripcion: "Los autobuses son medios de transporte colectivo que llevan a las personas a diferentes lugares en rutas planificadas...", img: "autobus.jpg" },
+        // Cultura
+        { palabra: "traje", categoria: "Cultura", descripcion: "Los trajes representan la identidad cultural y la historia de un lugar. Cada país tiene trajes tradicionales únicos y coloridos...", img: "traje.jpg" },
+        { palabra: "idioma", categoria: "Cultura", descripcion: "Cada país tiene su propio idioma. Aprender diferentes idiomas nos ayuda a entender y apreciar diversas culturas...", img: "idioma.jpg" },
+        { palabra: "costumbre", categoria: "Cultura", descripcion: "Las costumbres son tradiciones especiales que la gente sigue, como saludar o celebrar festivales de manera única...", img: "costumbre.jpg" },
+        { palabra: "baile", categoria: "Cultura", descripcion: "Los bailes reflejan la alegría y la creatividad de una cultura. Cada país tiene danzas tradicionales emocionantes...", img: "baile.jpg" },
+        { palabra: "comida", categoria: "Cultura", descripcion: "La comida es una parte importante de la cultura. Cada país tiene platos deliciosos que cuentan historias sobre su gente y sus tradiciones...", img: "comida.jpg" },
+        { palabra: "festividad", categoria: "Cultura", descripcion: "Las festividades son celebraciones alegres que reúnen a la gente para compartir alegría y tradiciones únicas...", img: "festividad.jpg" },
+        { palabra: "mito", categoria: "Cultura", descripcion: "Los mitos son historias tradicionales que explican el origen de cosas o enseñan lecciones importantes...", img: "mito.jpg" },
+        { palabra: "religion", categoria: "Cultura", descripcion: "La religión es una parte importante de la cultura, con creencias espirituales y prácticas que guían la vida de las personas...", img: "religion.jpg" },
+        { palabra: "creencias", categoria: "Cultura", descripcion: "Las creencias son ideas fundamentales que la gente tiene sobre el mundo y la vida...", img: "creencias.jpg" },
+        { palabra: "leyendas", categoria: "Cultura", descripcion: "Las leyendas son historias fascinantes que han sido transmitidas a lo largo del tiempo y a menudo contienen elementos mágicos o heroicos...", img: "leyendas.jpg" }
+      ];
 }
-// function timer() {
 
-//     let tiempoTranscurrido = 0;
-//     let minutos = 0;
-
-//     temporizador = setInterval(() => {
-//         tiempoTranscurrido++;
-//         if (tiempoTranscurrido == 60){
-//             tiempoTranscurrido = 0;
-//             minutos =+1;
-//         }
-//         document.getElementById('timer').innerHTML = "Tiempo ["+ minutos+ ":" + tiempoTranscurrido + " segundos  ]";
-//     }, 1000);
-// }
 function timer() {
     let tiempoTranscurrido = 0;
     let minutos = 0;
@@ -66,21 +87,42 @@ function timer() {
     }, 1000);
 }
 
+// function seleccionarPalabraRandom(arrayPalabras) {
+//     // Obtener una categoría aleatoria
+//     const categorias = Object.keys(arrayPalabras);
+//     const categoriaAleatoria = categorias[Math.floor(Math.random() * categorias.length)];
+
+//     // Obtener la lista de palabras de la categoría seleccionada
+//     const palabrasCategoria = arrayPalabras[categoriaAleatoria];
+
+//     // Generar un número aleatorio para seleccionar una palabra de la categoría
+//     numeroRandom = Math.floor(Math.random() * palabrasCategoria.length);
+
+//     // Obtener la palabra seleccionada
+//     palabraSeleccionada = palabrasCategoria[numeroRandom];
+//     document.getElementById('categoria').innerHTML = "<strong>Categoría: </strong>" + categoriaAleatoria;
+// }
 function seleccionarPalabraRandom(arrayPalabras) {
-    // Obtener una categoría aleatoria
-    const categorias = Object.keys(arrayPalabras);
-    const categoriaAleatoria = categorias[Math.floor(Math.random() * categorias.length)];
-
-    // Obtener la lista de palabras de la categoría seleccionada
-    const palabrasCategoria = arrayPalabras[categoriaAleatoria];
-
-    // Generar un número aleatorio para seleccionar una palabra de la categoría
-    numeroRandom = Math.floor(Math.random() * palabrasCategoria.length);
-
+    // Obtener un índice aleatorio de la array
+    numeroRandom = Math.floor(Math.random() * arrayPalabras.length);
+  
     // Obtener la palabra seleccionada
-    palabraSeleccionada = palabrasCategoria[numeroRandom];
-    document.getElementById('categoria').innerHTML = "<strong>Categoría: </strong>" + categoriaAleatoria;
-}
+    palabraSeleccionada = arrayPalabras[numeroRandom].palabra;
+    palabraDescripcion = arrayPalabras[numeroRandom].descripcion;
+    palabraCategoria = arrayPalabras[numeroRandom].categoria;
+    palabraImagen = arrayPalabras[numeroRandom].imagen;
+    
+    // Mostrar la categoría y la descripción asociada
+    document.getElementById('palabra').innerHTML = "<strong>Palabra: </strong>" + palabraSeleccionada;
+    document.getElementById('categoria').innerHTML = "<strong>Categoría: </strong>" + palabraCategoria;
+    document.getElementById('descripcion').innerHTML = "<strong>Descripción: </strong>" + palabraDescripcion;
+    document.getElementById('imagen').innerHTML = "<strong>Imagen: </strong>" + palabraImagen;
+    //document.getElementById('descripcion').innerHTML = "<strong>Descripción: </strong>" + palabraSeleccionada.descripcion;
+  
+    // Llamar a la función informacion() para mostrar la información asociada
+   // informacion();
+  }
+  
 
 
 function crearGuionesPalabra(palabraSeleccionada) {
@@ -196,6 +238,7 @@ function comprobarVictoria() {
         console.log("Has ganado");
         //PONER AQUÍ POPUP
        // popupFuncion('ganar');
+       popup('ganar'); 
     }
 }
 
@@ -212,52 +255,15 @@ function cambiarColorBotones(letraCorrecta, botonClickeado) {
 function printErrores(letraCorrecta) {
     if (!letraCorrecta) {
         errores++;
-
         console.log("Nº Errores: " + errores);
-        //CREO QUE NO VOY A MOSTRAR LOS ERRORES 
-        //  document.getElementById('contadorErrores').innerHTML = "Nº de errores: " + errores;
         if (errores >= 9) {
-            //PONER UN POP UP
-            // document.getElementById('contadorErrores').innerHTML = "HAS PERDIDO";
-          //  popupFuncion('perder');
           console.log("Has perdido");
             errores = 9;
-            popup(); 
+            popup('perder'); 
         }
         imagenDibujo();
     }
 }
-
-
-//NO FUNCIONA
-
-// function popupFuncion(resultado) {
-//     //juegoEnCurso = false;
-//     clearInterval(temporizador);
-//     const popup = document.getElementById('popup');
-//     popup.style.display = 'block';
-
-//     const popupContent = document.getElementById('popup-content');
-//     console.log("resultado",resultado);
-//     if (resultado === 'ganar') {
-//         popupContent.innerHTML = document.getElementById('ganar').innerHTML;
-//     } else if (resultado === 'perder') {
-//         popupContent.innerHTML = document.getElementById('perder').innerHTML;
-//     }
-
-//     const botones = popupContent.querySelectorAll('button');
-//     botones.forEach((boton) => {
-//         boton.addEventListener('click', (event) => {
-//             const accion = event.target.getAttribute('data-action');
-//             if (accion === 'volver') {
-//                 location.reload();
-//             } else if (accion === 'reiniciar') {
-//                 location.reload();
-//             }
-//         });
-//     });
-// }
-
 
 
 function createPopup(id) {
@@ -265,8 +271,38 @@ function createPopup(id) {
     let overlay = popupNode.querySelector(".overlay");
     let closeBtn = popupNode.querySelector(".close-btn");
 
-    function openPopup() {
+    function openPopup(resultado) {
+        // Juego en curso se establece como false
+         clearInterval(temporizador);
+
+        // Se muestra el popup
         popupNode.classList.add("active");
+
+        // Se obtiene el contenido del popup
+        const popupContent = popupNode.querySelector('.popup-content');
+
+        console.log("resultado", resultado);
+
+        // Se actualiza el contenido del popup según el resultado
+        if (resultado === 'ganar') {
+            popupContent.innerHTML = document.getElementById('ganar').innerHTML;
+        } else if (resultado === 'perder') {
+            popupContent.innerHTML = document.getElementById('perder').innerHTML;
+        }
+
+        // Se añaden event listeners a los botones dentro del popup
+        const botones = popupContent.querySelectorAll('button');
+        botones.forEach((boton) => {
+            boton.addEventListener('click', (event) => {
+                const accion = event.target.getAttribute('data-action');
+                if (accion === 'salir') {
+                    window.location.href = 'index.html';
+                   // location.reload();
+                } else if (accion === 'reiniciar') {
+                    location.reload();
+                }
+            });
+        });
     }
 
     function closePopup() {
@@ -274,13 +310,15 @@ function createPopup(id) {
     }
 
     overlay.addEventListener("click", closePopup);
-    closeBtn.addEventListener("click", closePopup);
+    closeBtn.addEventListener("click", closePopup); //añadir para hacer el efecto
 
     return openPopup;
 }
 
 let popup = createPopup("#popup");
- // Llama a la función openPopup directamente para que se abra el popup al cargar la página
 
-
-
+function informacion(){
+    document.getElementById('palabra').innerHTML = palabraSeleccionada;
+    let descripcion = document.getElementById('descripcion');
+    let imagen = document.getElementById('imagen');   
+}
