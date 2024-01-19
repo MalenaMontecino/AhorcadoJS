@@ -10,7 +10,8 @@ let guion;
 let guiones = [];
 let letraCorrecta;
 let errores = 0;
-document.getElementById('contadorErrores').innerHTML = "Nº de errores: 0";
+let temporizador;
+//document.getElementById('contadorErrores').innerHTML = "Nº de errores: 0";
 
 // LLAMADA A FUNCIONES
 crearArrayPalabras();
@@ -18,38 +19,54 @@ seleccionarPalabraRandom(arrayPalabras);
 crearGuionesPalabra(palabraSeleccionada);
 imagenDibujo();
 crearBotones();
+timer();
 
 //FUNCIONES
 function crearArrayPalabras() {
-    arrayPalabras = ['globo', 'mapa', 'viaje', 'mar', 'tierra',
-        'avion', 'pais', 'ruta', 'continente', 'oceano',
-        'montaña', 'desierto', 'selva', 'barco', 'cuidad',
-        'cultura', 'idioma', 'explorador', 'aventura', 'maleta',
-        'visado', 'brujula', 'hemisferio', 'polo', 'safari',
-        'faro', 'tradicion', 'monumento', 'isla', 'puente',
-        'calle', 'mercado', 'playa', 'rio', 'piramide'];
+    arrayPalabras = {
+        "Países": ["inglaterra", "francia", "italia", "china", "mexico", "japon", "australia", "brasil", "canada", "egipto", "rusia", "india", "argentina"],
+        "Transporte": ["avion", "barco", "tren", "bicicleta", "coche", "camion", "helicoptero", "autobus"],
+        "Cultura": ["traje", "idioma", "costumbre", "baile", "comida", "festividad", "mito", "religion", "creencias", "leyendas"]
+    }
+
+}
+function timer() {
+
+    let tiempoTranscurrido = 0;
+
+    temporizador = setInterval(() => {
+        tiempoTranscurrido++;
+        document.getElementById('timer').innerHTML = "[ " + tiempoTranscurrido + " segundos  ]";
+    }, 1000);
 }
 
 function seleccionarPalabraRandom(arrayPalabras) {
-    //generar un numero random del 0 al 34
-    numeroRandom = Math.floor(Math.random() * 34);
-    console.log("Num Random: "+numeroRandom);
+    // Obtener una categoría aleatoria
+    const categorias = Object.keys(arrayPalabras);
+    const categoriaAleatoria = categorias[Math.floor(Math.random() * categorias.length)];
 
-    // sacar palabra de la array   
-    palabraSeleccionada = arrayPalabras[numeroRandom]
-    console.log("Palabra seleccionada: "+palabraSeleccionada)
+    // Obtener la lista de palabras de la categoría seleccionada
+    const palabrasCategoria = arrayPalabras[categoriaAleatoria];
 
+    // Generar un número aleatorio para seleccionar una palabra de la categoría
+    numeroRandom = Math.floor(Math.random() * palabrasCategoria.length);
+
+    // Obtener la palabra seleccionada
+    palabraSeleccionada = palabrasCategoria[numeroRandom];
+    document.getElementById('categoria').innerHTML = "<strong>Categoría: </strong>" + categoriaAleatoria;
 }
+
 
 function crearGuionesPalabra(palabraSeleccionada) {
     //contar cuantas letras tiene
     longitudPalabra = palabraSeleccionada.length;
-    console.log("Longitud palabra: "+longitudPalabra);
+    console.log("Longitud palabra: " + longitudPalabra);
 
     //mostrar tantos guiones como letras
     for (let i = 0; i < longitudPalabra; i++) {
 
         guion = document.createElement('p');
+
         guion.textContent = "_";
         guion.style.display = 'inline';
         guion.style.padding = '5px';
@@ -57,12 +74,9 @@ function crearGuionesPalabra(palabraSeleccionada) {
 
         // Añadir el elemento de imagen al contenedor en el DOM
         let contenedorGuion = document.getElementById("contenedor-guion");
-       
 
-       
-       // contenedorGuion.style.height ='77px';
+        contenedorGuion.style.height = '142.8px';
 
-         contenedorGuion.style.height = '120px'; 
         contenedorGuion.appendChild(guion);
         guiones.push(guion);
     }
@@ -101,12 +115,13 @@ function crearBotones() {
 
         // función externa porque al estar dentro del bucle siempre recordará la última letra creada (Z)
         //USO DE E.TARGET
-       
+
         boton.addEventListener("click", (function (letraClickeada, botonClickeado) {
             return function () {
                 console.log("Letra seleccionada: " + letraClickeada);
                 comprobarLetraDentroPalabra(letraClickeada, botonClickeado);
                 printErrores(letraCorrecta);
+                comprobarVictoria();
             };
         })(letraActual, boton));
 
@@ -120,8 +135,8 @@ function crearBotones() {
 function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
     let letras = palabraSeleccionada.split('');
     letraCorrecta = false;
-    console.log("Letras: "+letras);
-    console.log("Botón: "+letraClickeada.toLowerCase());
+    console.log("Letras: " + letras);
+    console.log("Botón: " + letraClickeada.toLowerCase());
     // letraClickeada.style.marginTop= "16px";
 
     for (let i = 0; i < letras.length; i++) {
@@ -131,21 +146,41 @@ function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
 
             guiones[i].style.fontSize = "50px";
             guiones[i].textContent = letraClickeada;
+            //guiones[i].style.alignItems = 'flex-end'; NO FUNCIONA
 
         }
     }
-    console.log("Letra correcta: "+letraCorrecta);
+    console.log("Letra correcta: " + letraCorrecta);
     cambiarColorBotones(letraCorrecta, botonClickeado);
-    
+
+    //FUNCION COMPROBAR VICTORIA
+
 }
 
+function comprobarVictoria() {
+    let ganar = true;
+    for (let i = 0; i < guiones.length; i++) {
+        if (guiones[i].textContent === "_") {
+            ganar = false;
+        }
 
+
+    }
+    if (ganar == true) {
+        console.log("Has ganado");
+        //PONER AQUÍ POPUP
+        popupFuncion('ganar');
+    }
+}
 
 function cambiarColorBotones(letraCorrecta, botonClickeado) {
     botonClickeado.disabled = true;
     if (letraCorrecta == true) {
         botonClickeado.classList.remove("btn-light");
         botonClickeado.classList.add("btn-success");
+    } else {
+        botonClickeado.classList.remove("btn-light");
+        botonClickeado.classList.add("btn-secondary");
     }
 }
 function printErrores(letraCorrecta) {
@@ -153,11 +188,13 @@ function printErrores(letraCorrecta) {
         errores++;
 
         console.log("Nº Errores: " + errores);
-        document.getElementById('contadorErrores').innerHTML = "Nº de errores: " + errores;
-        if (errores >= 10) {
+        //CREO QUE NO VOY A MOSTRAR LOS ERRORES 
+        //  document.getElementById('contadorErrores').innerHTML = "Nº de errores: " + errores;
+        if (errores >= 9) {
             //PONER UN POP UP
-            document.getElementById('contadorErrores').innerHTML = "HAS PERDIDO";
+            // document.getElementById('contadorErrores').innerHTML = "HAS PERDIDO";
             popupFuncion('perder');
+          console.log("Has perdido");
             errores = 9;
 
         }
@@ -166,13 +203,15 @@ function printErrores(letraCorrecta) {
 }
 
 
+//NO FUNCIONA
+
 function popupFuncion(resultado) {
     //juegoEnCurso = false;
-
+    clearInterval(temporizador);
     const popup = document.getElementById('popup');
     popup.style.display = 'block';
 
-    const popupContent = document.getElementById('popupContent');
+    const popupContent = document.getElementById('popup-content');
 
     if (resultado === 'ganar') {
         popupContent.innerHTML = document.getElementById('ganar').innerHTML;
@@ -193,8 +232,6 @@ function popupFuncion(resultado) {
     });
 }
 
-// Si esta seleccionada sacar posición y ponerla (poner botón en verde )
-// si no esta seleccionada sumar un error y printear dibujo (poner boton en disabled)
 
 
 
