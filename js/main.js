@@ -2,6 +2,9 @@
 let arrayPalabras;
 let numeroRandom;
 let palabraSeleccionada;
+let palabraCategoria;
+let palabraDescripcion;
+let palabraImagen;
 let longitudPalabra;
 let imagenesLetras = {}; //no es array, es objeto (para asociar directamente con la letra)
 let boton;
@@ -112,15 +115,16 @@ function seleccionarPalabraRandom(arrayPalabras) {
     palabraCategoria = arrayPalabras[numeroRandom].categoria;
     palabraImagen = arrayPalabras[numeroRandom].imagen;
     
-    // Mostrar la categoría y la descripción asociada
-    document.getElementById('palabra').innerHTML = "<strong>Palabra: </strong>" + palabraSeleccionada;
+    // // Mostrar la categoría y la descripción asociada
+    // document.getElementById('palabra').innerHTML = "<strong>Palabra: </strong>" + palabraSeleccionada;
     document.getElementById('categoria').innerHTML = "<strong>Categoría: </strong>" + palabraCategoria;
-    document.getElementById('descripcion').innerHTML = "<strong>Descripción: </strong>" + palabraDescripcion;
-    document.getElementById('imagen').innerHTML = "<strong>Imagen: </strong>" + palabraImagen;
+    // document.getElementById('descripcion').innerHTML = "<strong>Descripción: </strong>" + palabraDescripcion;
+    // document.getElementById('imagen').innerHTML = "<strong>Imagen: </strong>" + palabraImagen;
     //document.getElementById('descripcion').innerHTML = "<strong>Descripción: </strong>" + palabraSeleccionada.descripcion;
   
     // Llamar a la función informacion() para mostrar la información asociada
    // informacion();
+   
   }
   
 
@@ -239,6 +243,7 @@ function comprobarVictoria() {
         //PONER AQUÍ POPUP
        // popupFuncion('ganar');
        popup('ganar'); 
+       informacion();
     }
 }
 
@@ -260,6 +265,7 @@ function printErrores(letraCorrecta) {
           console.log("Has perdido");
             errores = 9;
             popup('perder'); 
+            informacion();
         }
         imagenDibujo();
     }
@@ -318,7 +324,9 @@ function createPopup(id) {
 let popup = createPopup("#popup");
 
 function informacion(){
-    document.getElementById('palabra').innerHTML = palabraSeleccionada;
-    let descripcion = document.getElementById('descripcion');
-    let imagen = document.getElementById('imagen');   
+   // Mostrar la categoría y la descripción asociada
+   document.getElementById('palabra').innerHTML = "<strong>Palabra: </strong>" + palabraSeleccionada;
+   document.getElementById('categoria1').innerHTML = "<strong>Categoría: </strong>" + palabraCategoria;
+   document.getElementById('descripcion').innerHTML = "<strong>Descripción: </strong>" + palabraDescripcion;
+   document.getElementById('imagen').innerHTML = "<strong>Imagen: </strong>" + palabraImagen;
 }
