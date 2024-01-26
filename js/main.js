@@ -1,3 +1,4 @@
+
 //VARIABLES
 let arrayPalabras;
 let numeroRandom;
