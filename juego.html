@@ -57,85 +57,28 @@
 
     <div class="popup text-center" id="popup">
         <div class="overlay"></div>
-        <div class="popup-content">
-
-            <!-- <div class="card mb-3" style="max-width: 540px;">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="..." class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.</p>
-                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
-
-
-            <div id="ganar">
-
-                <div class="card mb-3" style="max-width: 540px;">
+        <div class="popup-content" >
+            <h1 id="tituloPopup"></h1><br>
+                <div class="card mb-3" style="max-width: 540px; ">
                     <div class="row g-0">
-                        <div class="col-md-4 align-items-center">
-                            <img id="imagen" src="" class="img-fluid">
+                        <div class="col-md-4 d-flex align-items-center justify-content-center">
+                            <img id="imagen" src="" class="img-fluid p-2">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h1>¡Ganaste!</h1> <br>
-                                <div id=info class=" container text-start">
+                                <div id=info class=" container text-start ">
                                     <p id="palabra"></p>
                                     <p id="categoria1"></p>
                                     <p id="descripcion"></p>
                                 </div>
-                                
                             </div>
-                          
-
-
                         </div>
                     </div>
                 </div>
-                <div class="controls">
-                    <button type="button" class=" close-btn " data-action="salir">Salir</button><br><br>
-                    <button type="button" class="submit-btn" data-action="reiniciar">Volver a
-                        jugar</button> <br><br>
+                <div class="controls ">
+                    <button type="button" class="close-btn btn btn-light" data-action="salir">Salir</button>
+                    <button type="button" class="submit-btn btn btn-light" data-action="reiniciar">Volver a jugar</button> <br><br>
                 </div>
-            </div>
-
-
-
-
-
-        </div>
-
-        <div id="perder">
-            <h1>¡Perdiste!</h1><br>
-            <div id=info class=" container text-start">
-                <div class="row">
-                    <div class="col p-4">
-                        <p id="palabra"></p>
-                        <p id="categoria1"></p>
-                        <p id="descripcion"></p>
-                    </div>
-                    <div class="col">
-                        <img id="imagen" src="">
-                    </div>
-                </div>
-                <!-- <p id="palabra"></p>
-                    <p id="categoria1"></p>
-                    <p id="descripcion"></p>
-                    <img id="imagen" src="" alt=""> -->
-            </div>
-            <div class="controls ">
-                <button type="button" class="close-btn btn btn-light" data-action="salir">Salir</button>
-                <button type="button" class="submit-btn btn btn-light" data-action="reiniciar">Volver a
-                    jugar</button> <br><br>
-            </div>
         </div>
 
     </div>

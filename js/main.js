@@ -90,43 +90,19 @@ function timer() {
     }, 1000);
 }
 
-// function seleccionarPalabraRandom(arrayPalabras) {
-//     // Obtener una categoría aleatoria
-//     const categorias = Object.keys(arrayPalabras);
-//     const categoriaAleatoria = categorias[Math.floor(Math.random() * categorias.length)];
-
-//     // Obtener la lista de palabras de la categoría seleccionada
-//     const palabrasCategoria = arrayPalabras[categoriaAleatoria];
-
-//     // Generar un número aleatorio para seleccionar una palabra de la categoría
-//     numeroRandom = Math.floor(Math.random() * palabrasCategoria.length);
-
-//     // Obtener la palabra seleccionada
-//     palabraSeleccionada = palabrasCategoria[numeroRandom];
-//     document.getElementById('categoria').innerHTML = "<strong>Categoría: </strong>" + categoriaAleatoria;
-// }
 function seleccionarPalabraRandom(arrayPalabras) {
     // Obtener un índice aleatorio de la array
-   // numeroRandom = Math.floor(Math.random() * arrayPalabras.length);
-  numeroRandom = 0;
+   numeroRandom = Math.floor(Math.random() * arrayPalabras.length);
+
+
     // Obtener la palabra seleccionada
     palabraSeleccionada = arrayPalabras[numeroRandom].palabra;
     palabraDescripcion = arrayPalabras[numeroRandom].descripcion;
     palabraCategoria = arrayPalabras[numeroRandom].categoria;
     palabraImagen = arrayPalabras[numeroRandom].img;
 
-    
-    
-    // // Mostrar la categoría y la descripción asociada
-    // document.getElementById('palabra').innerHTML = "<strong>Palabra: </strong>" + palabraSeleccionada;
     document.getElementById('categoria').innerHTML = "<strong>Categoría: </strong>" + palabraCategoria;
-    // document.getElementById('descripcion').innerHTML = "<strong>Descripción: </strong>" + palabraDescripcion;
-    // document.getElementById('imagen').innerHTML = "<strong>Imagen: </strong>" + palabraImagen;
-    //document.getElementById('descripcion').innerHTML = "<strong>Descripción: </strong>" + palabraSeleccionada.descripcion;
-  
-    // Llamar a la función informacion() para mostrar la información asociada
-   // informacion();
-   
+
   }
   
 
@@ -211,8 +187,7 @@ function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
     letraCorrecta = false;
     console.log("Letras: " + letras);
     console.log("Botón: " + letraClickeada.toLowerCase());
-    // letraClickeada.style.marginTop= "16px";
-
+    
     for (let i = 0; i < letras.length; i++) {
         if (letraClickeada.toLowerCase() == letras[i]) {
             letraCorrecta = true;
@@ -220,15 +195,10 @@ function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
 
             guiones[i].style.fontSize = "50px";
             guiones[i].textContent = letraClickeada;
-            //guiones[i].style.alignItems = 'flex-end'; NO FUNCIONA
-
         }
     }
     console.log("Letra correcta: " + letraCorrecta);
     cambiarColorBotones(letraCorrecta, botonClickeado);
-
-    //FUNCION COMPROBAR VICTORIA
-
 }
 
 function comprobarVictoria() {
@@ -237,8 +207,6 @@ function comprobarVictoria() {
         if (guiones[i].textContent === "_") {
             ganar = false;
         }
-
-
     }
     if (ganar == true) {
         console.log("Has ganado");
@@ -292,12 +260,12 @@ function createPopup(id) {
         console.log("resultado", resultado);
 
         // Se actualiza el contenido del popup según el resultado
+     
         if (resultado === 'ganar') {
-            popupContent.innerHTML = document.getElementById('ganar').innerHTML;
+            tituloPopup.innerText = '¡Ganaste!';
         } else if (resultado === 'perder') {
-            popupContent.innerHTML = document.getElementById('perder').innerHTML;
+            tituloPopup.innerText = '¡Perdiste!';
         }
-
         // Se añaden event listeners a los botones dentro del popup
         const botones = popupContent.querySelectorAll('button');
         botones.forEach((boton) => {
@@ -312,11 +280,10 @@ function createPopup(id) {
             });
         });
     }
-
+    
     function closePopup() {
         popupNode.classList.remove("active");
     }
-
     overlay.addEventListener("click", closePopup);
     closeBtn.addEventListener("click", closePopup); //añadir para hacer el efecto
 
@@ -340,7 +307,7 @@ function informacion(){
         // Establecer la ruta de la imagen
         imagenElement.src = palabraImagen;
         // Mostrar la imagen
-        imagenElement.style.display = 'block';
+        //imagenElement.style.display = 'block';
     } else {
         // Ocultar la imagen si no hay ruta proporcionada
         imagenElement.style.display = 'none';
