@@ -32,7 +32,7 @@ function crearArrayPalabras() {
     //     "Transporte": ["avion", "barco", "tren", "bicicleta", "coche", "camion", "helicoptero", "autobus"],
     //     "Cultura": ["traje", "idioma", "costumbre", "baile", "comida", "festividad", "mito", "religion", "creencias", "leyendas"]
     // }
-     arrayPalabras = [
+    arrayPalabras = [
         { palabra: "inglaterra", categoria: "Países", descripcion: "Inglaterra es un país en Europa conocido por su historia fascinante...", img: "/images/imgDescripciones/inglaterra.jpg" },
         { palabra: "francia", categoria: "Países", descripcion: "Francia es famosa por su Torre Eiffel y deliciosa comida...", img: "/images/imgDescripciones/francia.jpg" },
         { palabra: "italia", categoria: "Países", descripcion: "Italia es la cuna de la pizza y la pasta, con ciudades llenas de arte y historia...", img: "/images/imgDescripciones/italia.jpg" },
@@ -66,7 +66,7 @@ function crearArrayPalabras() {
         { palabra: "religion", categoria: "Cultura", descripcion: "La religión es una parte importante de la cultura, con creencias espirituales y prácticas que guían la vida de las personas...", img: "/images/imgDescripciones/religion.jpg" },
         { palabra: "creencias", categoria: "Cultura", descripcion: "Las creencias son ideas fundamentales que la gente tiene sobre el mundo y la vida...", img: "/images/imgDescripciones/creencias.jpg" },
         { palabra: "leyendas", categoria: "Cultura", descripcion: "Las leyendas son historias fascinantes que han sido transmitidas a lo largo del tiempo y a menudo contienen elementos mágicos o heroicos...", img: "/images/imgDescripciones/leyendas.jpg" }
-      ];
+    ];
 }
 
 function timer() {
@@ -82,8 +82,8 @@ function timer() {
         }
 
         //PARA EL FORMATO 00:00
-       // verifica si la variable minutos es menor que 10. 
-       //Si es verdadero, se concatena el string "0" con la variable minutos ("0" + minutos), lo que añade un cero a la izquierda.
+        // verifica si la variable minutos es menor que 10. 
+        //Si es verdadero, se concatena el string "0" con la variable minutos ("0" + minutos), lo que añade un cero a la izquierda.
         let minutosFormateados = minutos < 10 ? "0" + minutos : minutos;
         let segundosFormateados = tiempoTranscurrido < 10 ? "0" + tiempoTranscurrido : tiempoTranscurrido;
 
@@ -93,7 +93,7 @@ function timer() {
 
 function seleccionarPalabraRandom(arrayPalabras) {
     // Obtener un índice aleatorio de la array
-   numeroRandom = Math.floor(Math.random() * arrayPalabras.length);
+    numeroRandom = Math.floor(Math.random() * arrayPalabras.length);
 
 
     // Obtener la palabra seleccionada
@@ -104,8 +104,8 @@ function seleccionarPalabraRandom(arrayPalabras) {
 
     document.getElementById('categoria').innerHTML = "<strong>Categoría: </strong>" + palabraCategoria;
 
-  }
-  
+}
+
 
 
 function crearGuionesPalabra(palabraSeleccionada) {
@@ -188,7 +188,7 @@ function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
     letraCorrecta = false;
     console.log("Letras: " + letras);
     console.log("Botón: " + letraClickeada.toLowerCase());
-    
+
     for (let i = 0; i < letras.length; i++) {
         if (letraClickeada.toLowerCase() == letras[i]) {
             letraCorrecta = true;
@@ -212,9 +212,9 @@ function comprobarVictoria() {
     if (ganar == true) {
         console.log("Has ganado");
         //PONER AQUÍ POPUP
-       // popupFuncion('ganar');
-       popup('ganar'); 
-       informacion();
+        // popupFuncion('ganar');
+        popup('ganar');
+        informacion();
     }
 }
 
@@ -233,9 +233,9 @@ function printErrores(letraCorrecta) {
         errores++;
         console.log("Nº Errores: " + errores);
         if (errores >= 9) {
-          console.log("Has perdido");
+            console.log("Has perdido");
             errores = 9;
-            popup('perder'); 
+            popup('perder');
             informacion();
         }
         imagenDibujo();
@@ -245,12 +245,12 @@ function printErrores(letraCorrecta) {
 
 function createPopup(id) {
     let popupNode = document.querySelector(id);
-    let overlay = popupNode.querySelector(".overlay");
-    let closeBtn = popupNode.querySelector(".close-btn");
+    // let overlay = popupNode.querySelector(".overlay");
+    //  let closeBtn = popupNode.querySelector(".close-btn");
 
     function openPopup(resultado) {
         // Juego en curso se establece como false
-         clearInterval(temporizador);
+        clearInterval(temporizador);
 
         // Se muestra el popup
         popupNode.classList.add("active");
@@ -261,7 +261,7 @@ function createPopup(id) {
         console.log("resultado", resultado);
 
         // Se actualiza el contenido del popup según el resultado
-     
+
         if (resultado === 'ganar') {
             tituloPopup.innerText = '¡Ganaste!';
         } else if (resultado === 'perder') {
@@ -274,43 +274,77 @@ function createPopup(id) {
                 const accion = event.target.getAttribute('data-action');
                 if (accion === 'salir') {
                     window.location.href = 'index.html';
-                   // location.reload();
+                    // location.reload();
                 } else if (accion === 'reiniciar') {
                     location.reload();
                 }
             });
         });
     }
-    
-    function closePopup() {
-        popupNode.classList.remove("active");
-    }
-    overlay.addEventListener("click", closePopup);
-    closeBtn.addEventListener("click", closePopup); //añadir para hacer el efecto
+
+    //     function closePopup() {
+    //         console.log("Botón 'Volver a jugar' clickeado");
+    //         popupNode.classList.remove("active");
+    //     }
+
+    //    // overlay.addEventListener("click", closePopup);
+    //    closeBtn.addEventListener("click", closePopup); //añadir para hacer el efecto
 
     return openPopup;
 }
 
 let popup = createPopup("#popup");
 
-function informacion(){
-   // Mostrar la categoría y la descripción asociada
-   document.getElementById('palabra').innerHTML = "<strong>Palabra: </strong>" + palabraSeleccionada;
-   document.getElementById('categoria1').innerHTML = "<strong>Categoría: </strong>" + palabraCategoria;
-   document.getElementById('descripcion').innerHTML = "<strong>Descripción: </strong> <br>" + palabraDescripcion;
-   //document.getElementById('imagen').innerHTML = "<strong>Imagen: </strong>" + palabraImagen;
-   
-    // Obtener el elemento de la imagen
-    let imagenElement = document.getElementById('imagen');
+function informacion() {
+    // Mostrar la categoría y la descripción asociada
+    document.getElementById('palabra').innerHTML = "<strong>Palabra: </strong>" + palabraSeleccionada;
+    document.getElementById('categoria1').innerHTML = "<strong>Categoría: </strong>" + palabraCategoria;
+    document.getElementById('descripcion').innerHTML = "<strong>Descripción: </strong> " + palabraDescripcion;
 
-    // Verificar si la imagen existe en la ruta proporcionada
-    if (palabraImagen) {
-        // Establecer la ruta de la imagen
-        imagenElement.src = palabraImagen;
-        // Mostrar la imagen
-        //imagenElement.style.display = 'block';
-    } else {
-        // Ocultar la imagen si no hay ruta proporcionada
-        imagenElement.style.display = 'none';
-    }
+    let imagenElement = document.getElementById('imagen');
+    imagenElement.src = palabraImagen;
 }
+
+
+// // Almacenar el estado del juego en localStorage
+// window.addEventListener('beforeunload', function () {
+//     // Crear un objeto con la información relevante
+//     let gameState = {
+//         palabraSeleccionada: palabraSeleccionada,
+//         palabraCategoria: palabraCategoria,
+//         palabraDescripcion: palabraDescripcion,
+//         palabraImagen: palabraImagen,
+//         guiones: guiones.map(guion => guion.textContent),
+//         errores: errores,
+//         tiempoTranscurrido: tiempoTranscurrido,
+//         minutos: minutos
+//     };
+
+//     // Convertir el objeto a cadena JSON y almacenarlo en localStorage
+//     localStorage.setItem('gameState', JSON.stringify(gameState));
+// });
+
+// // Recuperar el estado del juego desde localStorage al cargar la página
+// window.addEventListener('DOMContentLoaded', function () {
+//     // Obtener la cadena JSON almacenada en localStorage
+//     let savedGameState = localStorage.getItem('gameState');
+
+//     if (savedGameState) {
+//         // Parsear la cadena JSON a un objeto
+//         let gameState = JSON.parse(savedGameState);
+
+//         // Restaurar el estado del juego con la información recuperada
+//         palabraSeleccionada = gameState.palabraSeleccionada;
+//         palabraCategoria = gameState.palabraCategoria;
+//         palabraDescripcion = gameState.palabraDescripcion;
+//         palabraImagen = gameState.palabraImagen;
+//         guiones.forEach((guion, index) => guion.textContent = gameState.guiones[index]);
+//         errores = gameState.errores;
+//         tiempoTranscurrido = gameState.tiempoTranscurrido;
+//         minutos = gameState.minutos;
+
+//         // Iniciar el temporizador con el tiempo recuperado
+//         timer();
+//     }
+// });
+
