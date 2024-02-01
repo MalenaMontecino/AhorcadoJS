@@ -109,9 +109,13 @@ function seleccionarPalabraRandom(arrayPalabras) {
 
 
 function crearGuionesPalabra(palabraSeleccionada) {
+    // Limpiar el contenedor de guiones antes de crear nuevos guiones
+    let contenedorGuion = document.getElementById("contenedor-guion");
+    contenedorGuion.innerHTML = '';
+
     //contar cuantas letras tiene
-    longitudPalabra = palabraSeleccionada.length;
-    console.log("Longitud palabra: " + longitudPalabra);
+    // longitudPalabra = palabraSeleccionada.length;
+    // console.log("Longitud palabra: " + longitudPalabra);
 
     //mostrar tantos guiones como letras
     for (let i = 0; i < longitudPalabra; i++) {
@@ -282,13 +286,6 @@ function createPopup(id) {
         });
     }
 
-    //     function closePopup() {
-    //         console.log("Botón 'Volver a jugar' clickeado");
-    //         popupNode.classList.remove("active");
-    //     }
-
-    //    // overlay.addEventListener("click", closePopup);
-    //    closeBtn.addEventListener("click", closePopup); //añadir para hacer el efecto
 
     return openPopup;
 }
@@ -304,6 +301,107 @@ function informacion() {
     let imagenElement = document.getElementById('imagen');
     imagenElement.src = palabraImagen;
 }
+
+
+//Local storage 
+    // ESTADO GENERAL
+    //    - palabra selecionada
+    //    - letras ya usadas
+    //    - el numero de errores 
+
+
+
+
+// Antes de la llamada a las funciones, recupera la información del localStorage
+let username = localStorage.getItem('username');
+let savedGameData = localStorage.getItem(username);
+
+// Si hay información guardada, utiliza esa información para restaurar el juego
+if (savedGameData) {
+    let gameData = JSON.parse(savedGameData);
+    palabraSeleccionada = gameData.palabraSeleccionada;
+    errores = gameData.errores;
+    longitudPalabra = gameData.longitudPalabra;
+
+
+
+    // Limpia el contenedor de guiones antes de crear nuevos guiones
+    let contenedorGuion = document.getElementById("contenedor-guion");
+    contenedorGuion.innerHTML = '';
+
+    // Llama a funciones para restaurar el estado del juego
+    crearGuionesPalabra(palabraSeleccionada);
+    imagenDibujo();
+    // Asigna los guiones al array guiones
+    guiones = Array.from(contenedorGuion.children);
+
+} else {
+    // Si no hay información guardada, realiza las operaciones normales al iniciar un nuevo juego
+    crearArrayPalabras();
+    seleccionarPalabraRandom(arrayPalabras);
+
+    // Limpia el contenedor de guiones antes de crear nuevos guiones
+    let contenedorGuion = document.getElementById("contenedor-guion");
+    contenedorGuion.innerHTML = '';
+
+    // Llama a funciones para iniciar el juego
+    crearGuionesPalabra(palabraSeleccionada);
+    imagenDibujo();
+    
+    // Asigna los guiones al array guiones
+    guiones = Array.from(contenedorGuion.children);
+ 
+}
+
+
+
+// // Antes de la llamada a las funciones, recupera la información del localStorage
+// let username = localStorage.getItem('username');
+// let savedGameData = localStorage.getItem(username);
+
+// // Si hay información guardada, utiliza esa información para restaurar el juego
+// if (savedGameData) {
+//     let gameData = JSON.parse(savedGameData);
+//     palabraSeleccionada = gameData.palabraSeleccionada;
+//     errores = gameData.errores;
+//     longitudPalabra = gameData.longitudPalabra;
+
+//     // Restaura cualquier otra información necesaria
+//     // ...
+
+//     // Limpia el contenedor de guiones antes de crear nuevos guiones
+//     let contenedorGuion = document.getElementById("contenedor-guion");
+//     contenedorGuion.innerHTML = '';
+
+//     // Llama a funciones para restaurar el estado del juego
+//     crearGuionesPalabra(palabraSeleccionada);
+//     imagenDibujo();
+//     // Asigna los guiones al array guiones
+//     guiones = Array.from(contenedorGuion.children);
+//     // Llama a otras funciones según sea necesario
+//     // ...
+// } else {
+//     // Si no hay información guardada, realiza las operaciones normales al iniciar un nuevo juego
+//     crearArrayPalabras();
+//     seleccionarPalabraRandom(arrayPalabras);
+
+//     // Limpia el contenedor de guiones antes de crear nuevos guiones
+//     let contenedorGuion = document.getElementById("contenedor-guion");
+//     contenedorGuion.innerHTML = '';
+
+//     // Llama a funciones para iniciar el juego
+//     crearGuionesPalabra(palabraSeleccionada);
+//     imagenDibujo();
+    
+//     // Asigna los guiones al array guiones
+//     guiones = Array.from(contenedorGuion.children);
+//     // Llama a otras funciones según sea necesario
+//     // ...
+// }
+
+
+
+
 
 
 // // Almacenar el estado del juego en localStorage
