@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <form action="juego.html" method="get" id="myForm">
+    <form action="juego.html" method="GET" id="myForm">
         <div class="container text-center ">
             <div class="position-absolute top-50 start-50 translate-middle">
                 <div id="welcomePage" class="card border-dark p-3  m-5" style="width: 25rem;">
@@ -20,11 +20,10 @@
                         <h5 class="card-title mb-3">Bienvenido al juego del ahorcado</h5>
                         <div class="input-group mb-4 mt-4 ">
                             <span class="input-group-text" id="basic-addon1">@</span>
-                            <input type="text" class="form-control" placeholder="Nombre de usuario"
+                            <input type="text" class="form-control" id="usuario" name ="usuario" placeholder="Nombre de usuario"
                                 aria-label="Username" aria-describedby="basic-addon1" required>
                         </div>
                         <button type="submit" class="btn btn-light">Jugar</button>
-                        <!-- <a href="juego.html" class="btn btn-light ">Jugar</a> -->
                     </div>
                 </div>
             </div>
@@ -34,6 +33,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
+        
 </body>
 
 </html>

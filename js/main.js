@@ -15,6 +15,11 @@ let guiones = [];
 let letraCorrecta;
 let errores = 0;
 let temporizador;
+let tiempoTranscurrido;
+
+//sacar el usuario
+let usuario = document.getElementById('usuario');
+console.log(usuario.value);
 //document.getElementById('contadorErrores').innerHTML = "Nº de errores: 0";
 
 // LLAMADA A FUNCIONES
@@ -70,11 +75,12 @@ function crearArrayPalabras() {
 }
 
 function timer() {
-    let tiempoTranscurrido = 0;
+     tiempoTranscurrido = 0;
     let minutos = 0;
 
     temporizador = setInterval(() => {
         tiempoTranscurrido++;
+        guardar_localStorage();
 
         if (tiempoTranscurrido == 60) {
             tiempoTranscurrido = 0;
@@ -114,8 +120,11 @@ function crearGuionesPalabra(palabraSeleccionada) {
     // contenedorGuion.innerHTML = '';
 
     //contar cuantas letras tiene
-    longitudPalabra = palabraSeleccionada.length;
+    longitudPalabra = palabraSeleccionada.length;  
+        
     console.log("Longitud palabra: " + longitudPalabra);
+    console.log('Palabra seleccionada: ', palabraSeleccionada);
+  
 
     //mostrar tantos guiones como letras
     for (let i = 0; i < longitudPalabra; i++) {
@@ -192,6 +201,10 @@ function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
     letraCorrecta = false;
     console.log("Letras: " + letras);
     console.log("Botón: " + letraClickeada.toLowerCase());
+
+
+    
+
 
     for (let i = 0; i < letras.length; i++) {
         if (letraClickeada.toLowerCase() == letras[i]) {
@@ -302,8 +315,54 @@ function informacion() {
     imagenElement.src = palabraImagen;
 }
 
+function guardar_localStorage(){
+    //let username = localStorage.getItem('username');
+    //let username = document.getElementById('usuario');
+   // let usuario = document.getElementById('usuario').value;
 
-//Local storage 
+    let Juego = {
+        datosPalabra: arrayPalabras[numeroRandom],
+        nErrores: errores,
+        tiempo: tiempoTranscurrido
+    }
+
+    // Usa el nombre de usuario como clave para almacenar en localStorage
+    localStorage.setItem(usuario, JSON.stringify(Juego));
+
+
+}
+
+
+// function guardar_localStorage(){
+
+
+//     let usuario = document.getElementById('usuario').value;
+
+//     let Juego = {
+//         datosPalabra: arrayPalabras[numeroRandom],
+//         nErrores: errores,
+//         tiempo: tiempoTranscurrido
+//     }
+
+//     // Usa el nombre de usuario como clave para almacenar en localStorage
+//     localStorage.setItem(usuario, JSON.stringify(Juego));
+
+//     // Redirige a la página del juego
+//    // window.location.href = 'juego.html';
+
+
+//     // let Juego= {
+//     //    datosPalabra: arrayPalabras[numeroRandom],
+//     //    nErrores: errores,
+//     //    tiempo: tiempoTranscurrido
+      
+
+//     // }
+    
+ 
+//     // localStorage.setItem( 'Juego', JSON.stringify(Juego));
+// }
+// //Local storage 
     // ESTADO GENERAL
     //    - palabra selecionada
     //    - letras ya usadas
