@@ -19,7 +19,7 @@ let tiempoTranscurrido;
 
 //sacar el usuario
 let usuario = document.getElementById('usuario');
-console.log(usuario.value);
+console.log(usuario);
 //document.getElementById('contadorErrores').innerHTML = "Nº de errores: 0";
 
 // LLAMADA A FUNCIONES
