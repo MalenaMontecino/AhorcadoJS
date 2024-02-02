@@ -13,30 +13,45 @@ let letraActual;
 let guion;
 let guiones = [];
 let letraCorrecta;
-let errores = 0;
+let errores;
+localStorage.setItem('errores',0);
 let temporizador;
 let tiempoTranscurrido;
+let usuario;
+let arrayLetrasClickadas = [];
 
-//sacar el usuario
-let usuario = document.getElementById('usuario');
-console.log(usuario);
-//document.getElementById('contadorErrores').innerHTML = "Nº de errores: 0";
 
-// LLAMADA A FUNCIONES
+if(localStorage.getItem('arrayLetrasUsadas')== null){
 crearArrayPalabras();
 seleccionarPalabraRandom(arrayPalabras);
 crearGuionesPalabra(palabraSeleccionada);
+errores = 0;
+}else{
+    crearGuionesPalabra(localStorage.getItem('palabraSeleccionada'));
+    iniciaJuego();
+
+}
+
+
+
+
+
 imagenDibujo();
 crearBotones();
+
+
 timer();
 
+
+function iniciaJuego(){
+    
+  usuario = document.getElementById('usuario').value;
+  localStorage.setItem('usuario', usuario);
+    document.getElementById('index').style.display='none';
+    document.getElementById('juego').style.display='block';
+}
 //FUNCIONES
 function crearArrayPalabras() {
-    // arrayPalabras = {
-    //     "Países": ["inglaterra", "francia", "italia", "china", "mexico", "japon", "australia", "brasil", "canada", "egipto", "rusia", "india", "argentina"],
-    //     "Transporte": ["avion", "barco", "tren", "bicicleta", "coche", "camion", "helicoptero", "autobus"],
-    //     "Cultura": ["traje", "idioma", "costumbre", "baile", "comida", "festividad", "mito", "religion", "creencias", "leyendas"]
-    // }
     arrayPalabras = [
         { palabra: "inglaterra", categoria: "Países", descripcion: "Inglaterra es un país en Europa conocido por su historia fascinante...", img: "/images/imgDescripciones/inglaterra.jpg" },
         { palabra: "francia", categoria: "Países", descripcion: "Francia es famosa por su Torre Eiffel y deliciosa comida...", img: "/images/imgDescripciones/francia.jpg" },
@@ -80,7 +95,7 @@ function timer() {
 
     temporizador = setInterval(() => {
         tiempoTranscurrido++;
-        guardar_localStorage();
+        //guardar_localStorage();
 
         if (tiempoTranscurrido == 60) {
             tiempoTranscurrido = 0;
@@ -109,28 +124,22 @@ function seleccionarPalabraRandom(arrayPalabras) {
     palabraImagen = arrayPalabras[numeroRandom].img;
 
     document.getElementById('categoria').innerHTML = "<strong>Categoría: </strong>" + palabraCategoria;
-
+    localStorage.setItem('palabraSeleccionada',palabraSeleccionada );
 }
 
 
 
 function crearGuionesPalabra(palabraSeleccionada) {
-    // Limpiar el contenedor de guiones antes de crear nuevos guiones
-    // let contenedorGuion = document.getElementById("contenedor-guion");
-    // contenedorGuion.innerHTML = '';
-
     //contar cuantas letras tiene
     longitudPalabra = palabraSeleccionada.length;  
         
     console.log("Longitud palabra: " + longitudPalabra);
     console.log('Palabra seleccionada: ', palabraSeleccionada);
   
-
     //mostrar tantos guiones como letras
     for (let i = 0; i < longitudPalabra; i++) {
 
         guion = document.createElement('p');
-
         guion.textContent = "_";
         guion.style.display = 'inline';
         guion.style.padding = '5px';
@@ -144,8 +153,6 @@ function crearGuionesPalabra(palabraSeleccionada) {
         contenedorGuion.appendChild(guion);
         guiones.push(guion);
     }
-
-
 }
 
 function imagenDibujo() {
@@ -155,10 +162,7 @@ function imagenDibujo() {
 
     let contenedorImagenDibujo = document.getElementById("contenedor-imagen-dibujo");
     contenedorImagenDibujo.appendChild(imagenDibujo);
-
 }
-
-
 
 function crearBotones() {
     // Obtener el contenedor de botones
@@ -177,9 +181,6 @@ function crearBotones() {
         boton.style.width = "50px";
         boton.style.margin = "5px"; // Agregar margen entre botones
 
-        // función externa porque al estar dentro del bucle siempre recordará la última letra creada (Z)
-        //USO DE E.TARGET
-
         boton.addEventListener("click", (function (letraClickeada, botonClickeado) {
             return function () {
                 console.log("Letra seleccionada: " + letraClickeada);
@@ -189,11 +190,8 @@ function crearBotones() {
             };
         })(letraActual, boton));
 
-
-        // Agregar el botón al contenedor
         contenedorBotones.appendChild(boton);
     }
-
 }
 
 function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
@@ -201,10 +199,6 @@ function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
     letraCorrecta = false;
     console.log("Letras: " + letras);
     console.log("Botón: " + letraClickeada.toLowerCase());
-
-
-    
-
 
     for (let i = 0; i < letras.length; i++) {
         if (letraClickeada.toLowerCase() == letras[i]) {
@@ -215,6 +209,9 @@ function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
             guiones[i].textContent = letraClickeada;
         }
     }
+
+    arrayLetrasClickadas.push(letraClickeada);
+    localStorage.setItem('arrayLetrasUsadas', arrayLetrasClickadas);
     console.log("Letra correcta: " + letraCorrecta);
     cambiarColorBotones(letraCorrecta, botonClickeado);
 }
@@ -228,8 +225,6 @@ function comprobarVictoria() {
     }
     if (ganar == true) {
         console.log("Has ganado");
-        //PONER AQUÍ POPUP
-        // popupFuncion('ganar');
         popup('ganar');
         informacion();
     }
@@ -245,9 +240,11 @@ function cambiarColorBotones(letraCorrecta, botonClickeado) {
         botonClickeado.classList.add("btn-secondary");
     }
 }
+
 function printErrores(letraCorrecta) {
     if (!letraCorrecta) {
         errores++;
+        localStorage.setItem('errores', errores);
         console.log("Nº Errores: " + errores);
         if (errores >= 9) {
             console.log("Has perdido");
@@ -291,14 +288,16 @@ function createPopup(id) {
                 const accion = event.target.getAttribute('data-action');
                 if (accion === 'salir') {
                     window.location.href = 'index.html';
+                   
                     // location.reload();
                 } else if (accion === 'reiniciar') {
                     location.reload();
+                    iniciaJuego();
+                  
                 }
             });
         });
     }
-
 
     return openPopup;
 }
@@ -315,22 +314,24 @@ function informacion() {
     imagenElement.src = palabraImagen;
 }
 
-function guardar_localStorage(){
-    //let username = localStorage.getItem('username');
-    //let username = document.getElementById('usuario');
-   // let usuario = document.getElementById('usuario').value;
+// function guardar_localStorage(){
+//     //let username = localStorage.getItem('username');
+//     //let username = document.getElementById('usuario');
+//    // let usuario = document.getElementById('usuario').value;
 
-    let Juego = {
-        datosPalabra: arrayPalabras[numeroRandom],
-        nErrores: errores,
-        tiempo: tiempoTranscurrido
-    }
+//   usuario = document.getElementById('usuario').value;
+//   console.log(usuario);
 
-    // Usa el nombre de usuario como clave para almacenar en localStorage
-    localStorage.setItem(usuario, JSON.stringify(Juego));
+//     let Juego = {
+//         datosPalabra: arrayPalabras[numeroRandom],
+//         nErrores: errores,
+//         tiempo: tiempoTranscurrido
+//     }
+//     // Usa el nombre de usuario como clave para almacenar en localStorage
+//     localStorage.setItem(/*usuario*/ usuario, JSON.stringify(Juego));
 
 
-}
+// }
 
 
 // function guardar_localStorage(){
