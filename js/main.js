@@ -14,22 +14,35 @@ let guion;
 let guiones = [];
 let letraCorrecta;
 let errores;
-localStorage.setItem('errores',0);
+
 let temporizador;
 let tiempoTranscurrido;
 let usuario;
 let arrayLetrasClickadas = [];
 
+//NO FUNCIONA:
+// los errores
+//el usuario
 
-if(localStorage.getItem('arrayLetrasUsadas')== null){
-crearArrayPalabras();
-seleccionarPalabraRandom(arrayPalabras);
-crearGuionesPalabra(palabraSeleccionada);
-errores = 0;
+
+if(localStorage.getItem('arrayLetrasUsadas')== null /*o si ha ganado o perdido*/){
+// para empezar de 0
+    crearArrayPalabras();
+    seleccionarPalabraRandom(arrayPalabras);
+    crearGuionesPalabra(palabraSeleccionada);
+
+    errores = 0;
+    localStorage.setItem('errores',0);
 }else{
+    //F5
+    //si ya había una partida en marcha
     crearGuionesPalabra(localStorage.getItem('palabraSeleccionada'));
-    iniciaJuego();
+    usuario = localStorage.getItem('usuario');
 
+    cambiarColorBotonesF5();
+    
+    document.getElementById('index').style.display='none';
+    document.getElementById('juego').style.display='block';
 }
 
 
@@ -44,12 +57,13 @@ timer();
 
 
 function iniciaJuego(){
-    
-  usuario = document.getElementById('usuario').value;
-  localStorage.setItem('usuario', usuario);
+    usuario = document.getElementById('usuario').value;
+    localStorage.setItem('usuario', usuario);
+ 
     document.getElementById('index').style.display='none';
     document.getElementById('juego').style.display='block';
 }
+
 //FUNCIONES
 function crearArrayPalabras() {
     arrayPalabras = [
@@ -158,7 +172,8 @@ function crearGuionesPalabra(palabraSeleccionada) {
 function imagenDibujo() {
     // let imagenDibujo = document.createElement("img");
     let imagenDibujo = document.querySelector("#contenedor-imagen-dibujo img");
-    imagenDibujo.src = `/images/${errores}.png`;
+ 
+    imagenDibujo.src = `/images/${localStorage.getItem('errores')}.png`;
 
     let contenedorImagenDibujo = document.getElementById("contenedor-imagen-dibujo");
     contenedorImagenDibujo.appendChild(imagenDibujo);
@@ -180,15 +195,16 @@ function crearBotones() {
         boton.style.fontSize = "30px";
         boton.style.width = "50px";
         boton.style.margin = "5px"; // Agregar margen entre botones
-
+        boton.id= letraActual; 
         boton.addEventListener("click", (function (letraClickeada, botonClickeado) {
             return function () {
                 console.log("Letra seleccionada: " + letraClickeada);
                 comprobarLetraDentroPalabra(letraClickeada, botonClickeado);
-                printErrores(letraCorrecta);
+                printErrores(letraCorrecta); 
                 comprobarVictoria();
             };
         })(letraActual, boton));
+        
 
         contenedorBotones.appendChild(boton);
     }
@@ -232,6 +248,24 @@ function comprobarVictoria() {
 
 function cambiarColorBotones(letraCorrecta, botonClickeado) {
     botonClickeado.disabled = true;
+    if (letraCorrecta == true) {
+        botonClickeado.classList.remove("btn-light");
+        botonClickeado.classList.add("btn-success");
+    } else {
+        botonClickeado.classList.remove("btn-light");
+        botonClickeado.classList.add("btn-secondary");
+    }
+}
+
+
+function cambiarColorBotonesF5() {
+   a=localStorage.getItem('arrayLetrasUsadas')
+
+   for
+
+
+   botonClickeado= getElementById()}
+
     if (letraCorrecta == true) {
         botonClickeado.classList.remove("btn-light");
         botonClickeado.classList.add("btn-success");
