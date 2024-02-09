@@ -2,10 +2,10 @@
 //VARIABLES
 let arrayPalabras;
 let numeroRandom;
-let palabraSeleccionada;
-let palabraCategoria;
-let palabraDescripcion;
-let palabraImagen;
+let palabraSeleccionada = localStorage.getItem('palabraSeleccionada');
+let palabraCategoria = localStorage.getItem('palabraCategoria');
+let palabraDescripcion = localStorage.getItem('palabraDescripcion');;
+let palabraImagen = localStorage.getItem('palabraImagen');
 let longitudPalabra;
 let imagenesLetras = {}; //no es array, es objeto (para asociar directamente con la letra)
 let boton;
@@ -13,12 +13,14 @@ let letraActual;
 let guion;
 let guiones = [];
 let letraCorrecta;
-let errores;
+let errores = localStorage.getItem('errores');
 
 let temporizador;
 let tiempoTranscurrido;
 let usuario;
 let arrayLetrasClickadas = [];
+let arrayLetrasCorrectas =[];
+let arrayLetrasIncorrectas = [];
 
 //NO FUNCIONA:
 // los errores
@@ -36,10 +38,10 @@ if(localStorage.getItem('arrayLetrasUsadas')== null /*o si ha ganado o perdido*/
 }else{
     //F5
     //si ya había una partida en marcha
-    crearGuionesPalabra(localStorage.getItem('palabraSeleccionada'));
+    crearGuionesPalabra(localStorage.getItem('palabraSeleccionada')); //AQUI SE PUEDE CAMBIAR POR PALABRA SELECCIONADA DIRECTAMENTE AHORA NO?
     usuario = localStorage.getItem('usuario');
 
-    cambiarColorBotonesF5();
+    //cambiarColorBotones();
     
     document.getElementById('index').style.display='none';
     document.getElementById('juego').style.display='block';
@@ -139,6 +141,9 @@ function seleccionarPalabraRandom(arrayPalabras) {
 
     document.getElementById('categoria').innerHTML = "<strong>Categoría: </strong>" + palabraCategoria;
     localStorage.setItem('palabraSeleccionada',palabraSeleccionada );
+    localStorage.setItem('palabraDescripcion',palabraDescripcion);
+    localStorage.setItem('palabraCategoria', palabraCategoria);
+    localStorage.setItem("palabraImagen", palabraImagen);
 }
 
 
@@ -173,7 +178,7 @@ function imagenDibujo() {
     // let imagenDibujo = document.createElement("img");
     let imagenDibujo = document.querySelector("#contenedor-imagen-dibujo img");
  
-    imagenDibujo.src = `/images/${localStorage.getItem('errores')}.png`;
+    imagenDibujo.src = `/images/${errores}.png`;
 
     let contenedorImagenDibujo = document.getElementById("contenedor-imagen-dibujo");
     contenedorImagenDibujo.appendChild(imagenDibujo);
@@ -226,8 +231,8 @@ function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
         }
     }
 
-    arrayLetrasClickadas.push(letraClickeada);
-    localStorage.setItem('arrayLetrasUsadas', arrayLetrasClickadas);
+    // arrayLetrasClickadas.push(letraClickeada);
+    // localStorage.setItem('arrayLetrasUsadas', arrayLetrasClickadas);
     console.log("Letra correcta: " + letraCorrecta);
     cambiarColorBotones(letraCorrecta, botonClickeado);
 }
@@ -248,28 +253,18 @@ function comprobarVictoria() {
 
 function cambiarColorBotones(letraCorrecta, botonClickeado) {
     botonClickeado.disabled = true;
+    // arrayLetrasCorrectas = localStorage.getItem('letrasCorrectas');
+    // arrayLetrasIncorrectas = localStorage.getItem('letrasIncorrectas');
     if (letraCorrecta == true) {
+        // arrayLetrasCorrectas.push(botonClickeado);
+        // localStorage.setItem('letrasCorrectas: ',arrayLetrasCorrectas);
+        // console.log('LETRA CORRECTA: ' ,arrayLetrasCorrectas);
         botonClickeado.classList.remove("btn-light");
         botonClickeado.classList.add("btn-success");
     } else {
-        botonClickeado.classList.remove("btn-light");
-        botonClickeado.classList.add("btn-secondary");
-    }
-}
-
-
-function cambiarColorBotonesF5() {
-   a=localStorage.getItem('arrayLetrasUsadas')
-
-   for
-
-
-   botonClickeado= getElementById()}
-
-    if (letraCorrecta == true) {
-        botonClickeado.classList.remove("btn-light");
-        botonClickeado.classList.add("btn-success");
-    } else {
+        // arrayLetrasIncorrectas.push(botonClickeado);
+        // localStorage.setItem('letrasIncorrectas: ',arrayLetrasIncorrectas);
+        // console.log('LETRA INCORRECTA: ' ,arrayLetrasIncorrectas);
         botonClickeado.classList.remove("btn-light");
         botonClickeado.classList.add("btn-secondary");
     }
@@ -348,55 +343,6 @@ function informacion() {
     imagenElement.src = palabraImagen;
 }
 
-// function guardar_localStorage(){
-//     //let username = localStorage.getItem('username');
-//     //let username = document.getElementById('usuario');
-//    // let usuario = document.getElementById('usuario').value;
-
-//   usuario = document.getElementById('usuario').value;
-//   console.log(usuario);
-
-//     let Juego = {
-//         datosPalabra: arrayPalabras[numeroRandom],
-//         nErrores: errores,
-//         tiempo: tiempoTranscurrido
-//     }
-//     // Usa el nombre de usuario como clave para almacenar en localStorage
-//     localStorage.setItem(/*usuario*/ usuario, JSON.stringify(Juego));
-
-
-// }
-
-
-// function guardar_localStorage(){
-
-
-//     let usuario = document.getElementById('usuario').value;
-
-//     let Juego = {
-//         datosPalabra: arrayPalabras[numeroRandom],
-//         nErrores: errores,
-//         tiempo: tiempoTranscurrido
-//     }
-
-//     // Usa el nombre de usuario como clave para almacenar en localStorage
-//     localStorage.setItem(usuario, JSON.stringify(Juego));
-
-//     // Redirige a la página del juego
-//    // window.location.href = 'juego.html';
-
-
-//     // let Juego= {
-//     //    datosPalabra: arrayPalabras[numeroRandom],
-//     //    nErrores: errores,
-//     //    tiempo: tiempoTranscurrido
-      
-
-//     // }
-    
- 
-//     // localStorage.setItem( 'Juego', JSON.stringify(Juego));
-// }
 // //Local storage 
     // ESTADO GENERAL
     //    - palabra selecionada
@@ -405,140 +351,4 @@ function informacion() {
     //    - si se ha ganado o perdido 
     //    - tiempo
 
-
-
-
-// Antes de la llamada a las funciones, recupera la información del localStorage
-// let username = localStorage.getItem('username');
-// let savedGameData = localStorage.getItem(username);
-
-// // Si hay información guardada, utiliza esa información para restaurar el juego
-// if (savedGameData) {
-//     let gameData = JSON.parse(savedGameData);
-//     palabraSeleccionada = gameData.palabraSeleccionada;
-//     errores = gameData.errores;
-//     longitudPalabra = gameData.longitudPalabra;
-
-
-
-//     // Limpia el contenedor de guiones antes de crear nuevos guiones
-//     let contenedorGuion = document.getElementById("contenedor-guion");
-//     contenedorGuion.innerHTML = '';
-
-//     // Llama a funciones para restaurar el estado del juego
-//     crearGuionesPalabra(palabraSeleccionada);
-//     imagenDibujo();
-//     // Asigna los guiones al array guiones
-//     guiones = Array.from(contenedorGuion.children);
-
-// } else {
-//     // Si no hay información guardada, realiza las operaciones normales al iniciar un nuevo juego
-//     crearArrayPalabras();
-//     seleccionarPalabraRandom(arrayPalabras);
-
-//     // Limpia el contenedor de guiones antes de crear nuevos guiones
-//     let contenedorGuion = document.getElementById("contenedor-guion");
-//     contenedorGuion.innerHTML = '';
-
-//     // Llama a funciones para iniciar el juego
-//     crearGuionesPalabra(palabraSeleccionada);
-//     imagenDibujo();
-    
-//     // Asigna los guiones al array guiones
-//     guiones = Array.from(contenedorGuion.children);
- 
-// }
-
-
-
-// // Antes de la llamada a las funciones, recupera la información del localStorage
-// let username = localStorage.getItem('username');
-// let savedGameData = localStorage.getItem(username);
-
-// // Si hay información guardada, utiliza esa información para restaurar el juego
-// if (savedGameData) {
-//     let gameData = JSON.parse(savedGameData);
-//     palabraSeleccionada = gameData.palabraSeleccionada;
-//     errores = gameData.errores;
-//     longitudPalabra = gameData.longitudPalabra;
-
-//     // Restaura cualquier otra información necesaria
-//     // ...
-
-//     // Limpia el contenedor de guiones antes de crear nuevos guiones
-//     let contenedorGuion = document.getElementById("contenedor-guion");
-//     contenedorGuion.innerHTML = '';
-
-//     // Llama a funciones para restaurar el estado del juego
-//     crearGuionesPalabra(palabraSeleccionada);
-//     imagenDibujo();
-//     // Asigna los guiones al array guiones
-//     guiones = Array.from(contenedorGuion.children);
-//     // Llama a otras funciones según sea necesario
-//     // ...
-// } else {
-//     // Si no hay información guardada, realiza las operaciones normales al iniciar un nuevo juego
-//     crearArrayPalabras();
-//     seleccionarPalabraRandom(arrayPalabras);
-
-//     // Limpia el contenedor de guiones antes de crear nuevos guiones
-//     let contenedorGuion = document.getElementById("contenedor-guion");
-//     contenedorGuion.innerHTML = '';
-
-//     // Llama a funciones para iniciar el juego
-//     crearGuionesPalabra(palabraSeleccionada);
-//     imagenDibujo();
-    
-//     // Asigna los guiones al array guiones
-//     guiones = Array.from(contenedorGuion.children);
-//     // Llama a otras funciones según sea necesario
-//     // ...
-// }
-
-
-
-
-
-
-// // Almacenar el estado del juego en localStorage
-// window.addEventListener('beforeunload', function () {
-//     // Crear un objeto con la información relevante
-//     let gameState = {
-//         palabraSeleccionada: palabraSeleccionada,
-//         palabraCategoria: palabraCategoria,
-//         palabraDescripcion: palabraDescripcion,
-//         palabraImagen: palabraImagen,
-//         guiones: guiones.map(guion => guion.textContent),
-//         errores: errores,
-//         tiempoTranscurrido: tiempoTranscurrido,
-//         minutos: minutos
-//     };
-
-//     // Convertir el objeto a cadena JSON y almacenarlo en localStorage
-//     localStorage.setItem('gameState', JSON.stringify(gameState));
-// });
-
-// // Recuperar el estado del juego desde localStorage al cargar la página
-// window.addEventListener('DOMContentLoaded', function () {
-//     // Obtener la cadena JSON almacenada en localStorage
-//     let savedGameState = localStorage.getItem('gameState');
-
-//     if (savedGameState) {
-//         // Parsear la cadena JSON a un objeto
-//         let gameState = JSON.parse(savedGameState);
-
-//         // Restaurar el estado del juego con la información recuperada
-//         palabraSeleccionada = gameState.palabraSeleccionada;
-//         palabraCategoria = gameState.palabraCategoria;
-//         palabraDescripcion = gameState.palabraDescripcion;
-//         palabraImagen = gameState.palabraImagen;
-//         guiones.forEach((guion, index) => guion.textContent = gameState.guiones[index]);
-//         errores = gameState.errores;
-//         tiempoTranscurrido = gameState.tiempoTranscurrido;
-//         minutos = gameState.minutos;
-
-//         // Iniciar el temporizador con el tiempo recuperado
-//         timer();
-//     }
-// });
 
