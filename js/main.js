@@ -22,12 +22,14 @@ let arrayLetrasClickadas = [];
 let arrayLetrasCorrectas =[];
 let arrayLetrasIncorrectas = [];
 
+
+
 //NO FUNCIONA:
 // los errores
 //el usuario
 
 
-if(localStorage.getItem('arrayLetrasUsadas')== null /*o si ha ganado o perdido*/){
+if(localStorage.getItem('arrayLetrasUsadas') == null  ){
 // para empezar de 0
     crearArrayPalabras();
     seleccionarPalabraRandom(arrayPalabras);
@@ -35,16 +37,19 @@ if(localStorage.getItem('arrayLetrasUsadas')== null /*o si ha ganado o perdido*/
 
     errores = 0;
     localStorage.setItem('errores',0);
+    console.log('partida nueva');
 }else{
     //F5
+
+  
     //si ya había una partida en marcha
     crearGuionesPalabra(localStorage.getItem('palabraSeleccionada')); //AQUI SE PUEDE CAMBIAR POR PALABRA SELECCIONADA DIRECTAMENTE AHORA NO?
     usuario = localStorage.getItem('usuario');
-
+    console.log('partida ya empezada');
     //cambiarColorBotones();
     
-    document.getElementById('index').style.display='none';
-    document.getElementById('juego').style.display='block';
+    // document.getElementById('index').style.display='none';
+    // document.getElementById('juego').style.display='block';
 }
 
 
@@ -55,15 +60,22 @@ imagenDibujo();
 crearBotones();
 
 
-timer();
+
 
 
 function iniciaJuego(){
     usuario = document.getElementById('usuario').value;
-    localStorage.setItem('usuario', usuario);
- 
+    if (usuario == ''){
+       let arroba = document.getElementById('arroba');
+       arroba.style = "background-color: rgba(255, 166, 0, 0.878)";
+     
+    } else{
+       timer();
+       localStorage.setItem('usuario', usuario);
+    console.log('existe usuario', usuario);
     document.getElementById('index').style.display='none';
     document.getElementById('juego').style.display='block';
+    }
 }
 
 //FUNCIONES
@@ -197,10 +209,7 @@ function crearBotones() {
         boton.type = "button";
         boton.classList.add("btn", "btn-light");
         boton.textContent = letraActual;
-        boton.style.fontSize = "30px";
-        boton.style.width = "50px";
-        boton.style.margin = "5px"; // Agregar margen entre botones
-        boton.id= letraActual; 
+        boton.id = 'botonLetras';
         boton.addEventListener("click", (function (letraClickeada, botonClickeado) {
             return function () {
                 console.log("Letra seleccionada: " + letraClickeada);
@@ -221,6 +230,7 @@ function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
     console.log("Letras: " + letras);
     console.log("Botón: " + letraClickeada.toLowerCase());
 
+  //  if(localStorage.getItem('arrayLetrasUsadas') == null ){
     for (let i = 0; i < letras.length; i++) {
         if (letraClickeada.toLowerCase() == letras[i]) {
             letraCorrecta = true;
@@ -230,6 +240,24 @@ function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
             guiones[i].textContent = letraClickeada;
         }
     }
+    
+    arrayLetrasClickadas.push(letraClickeada);
+    localStorage.setItem('arrayLetrasUsadas', arrayLetrasClickadas);
+//} else{
+    // for (let j = 0; j < arrayLetrasClickadas.length; j++) {
+    //     const letraYaUsada = arrayLetrasClickadas[j];
+    //     for (let i = 0; i < arrayLetrasClickadas.length; i++) {
+    //         if (letraYaUsada.toLowerCase() == letras[i]) {
+    //             letraCorrecta = true;
+    //             //HACER QUE NO SE COMA EL MARGIN CUANDO SE COMPLETE LA PALABRA
+    
+    //             guiones[i].style.fontSize = "50px";
+    //             guiones[i].textContent = letraYaUsada;
+    //         }
+    //     }
+    // }
+   
+}
 
     // arrayLetrasClickadas.push(letraClickeada);
     // localStorage.setItem('arrayLetrasUsadas', arrayLetrasClickadas);
@@ -246,6 +274,9 @@ function comprobarVictoria() {
     }
     if (ganar == true) {
         console.log("Has ganado");
+       
+        localStorage.removeItem('arrayLetrasUsadas');
+        //localStorage.setItem('arrayLetrasUsadas', null);
         popup('ganar');
         informacion();
     }
@@ -277,7 +308,10 @@ function printErrores(letraCorrecta) {
         console.log("Nº Errores: " + errores);
         if (errores >= 9) {
             console.log("Has perdido");
+            //localStorage.setItem('arrayLetrasUsadas', null);
             errores = 9;
+          
+            localStorage.removeItem('arrayLetrasUsadas');
             popup('perder');
             informacion();
         }
@@ -320,9 +354,12 @@ function createPopup(id) {
                    
                     // location.reload();
                 } else if (accion === 'reiniciar') {
-                    location.reload();
-                    iniciaJuego();
-                  
+                   // iniciaJuego();
+                 //  document.getElementById('index').style.display='none';
+                   //document.getElementById('juego').style.display='block';
+                   
+                   localStorage.clear();
+                   location.reload();
                 }
             });
         });

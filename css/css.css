@@ -9,10 +9,10 @@ h1 {
   font-size: 25px;
 }
 
-#btn {
+/* #btn {
   font-size: 60px;
 
-}
+} */
 
 #contenedor-guion {
   align-items: flex-end;
@@ -86,4 +86,9 @@ h1 {
 .popup.active .popup-content {
   transform: translate(-50%, -50%) scale(1);
   opacity: 1;
+}
+#botonLetras{
+  font-size: 30px;
+  width: 50px;
+  margin: 5px;
 }
