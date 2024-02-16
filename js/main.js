@@ -46,6 +46,7 @@ if(localStorage.getItem('arrayLetrasUsadas') == null  ){
     crearGuionesPalabra(localStorage.getItem('palabraSeleccionada')); //AQUI SE PUEDE CAMBIAR POR PALABRA SELECCIONADA DIRECTAMENTE AHORA NO?
     usuario = localStorage.getItem('usuario');
     console.log('partida ya empezada');
+//    actualizarLetrasUsadas();
     //cambiarColorBotones();
     
     // document.getElementById('index').style.display='none';
@@ -58,10 +59,26 @@ if(localStorage.getItem('arrayLetrasUsadas') == null  ){
 
 imagenDibujo();
 crearBotones();
+actualizarLetrasUsadas();
 
 
+function actualizarLetrasUsadas() {
+    let letrasUsadas = localStorage.getItem('arrayLetrasUsadas');
+    if (letrasUsadas !== null) {
+        letrasUsadas = letrasUsadas.split(',');
 
-
+        // Itera sobre los botones y actualiza su estado
+        let botones = document.querySelectorAll("#contenedor-botones button");
+        botones.forEach((boton) => {
+            let letra = boton.textContent;
+            if (letrasUsadas.includes(letra)) {
+                 letraCorrecta = true;
+                cambiarColorBotones(letraCorrecta, boton);
+                
+            } 
+        });
+    }
+}
 
 function iniciaJuego(){
     usuario = document.getElementById('usuario').value;
@@ -230,34 +247,36 @@ function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
     console.log("Letras: " + letras);
     console.log("Botón: " + letraClickeada.toLowerCase());
 
-  //  if(localStorage.getItem('arrayLetrasUsadas') == null ){
-    for (let i = 0; i < letras.length; i++) {
-        if (letraClickeada.toLowerCase() == letras[i]) {
-            letraCorrecta = true;
-            //HACER QUE NO SE COMA EL MARGIN CUANDO SE COMPLETE LA PALABRA
+   // if (localStorage.getItem('arrayLetrasUsadas') == null) {
+        for (let i = 0; i < letras.length; i++) {
+            if (letraClickeada.toLowerCase() == letras[i]) {
+                letraCorrecta = true;
+                //HACER QUE NO SE COMA EL MARGIN CUANDO SE COMPLETE LA PALABRA
 
-            guiones[i].style.fontSize = "50px";
-            guiones[i].textContent = letraClickeada;
+                guiones[i].style.fontSize = "50px";
+                guiones[i].textContent = letraClickeada;
+            }
         }
-    }
-    
-    arrayLetrasClickadas.push(letraClickeada);
-    localStorage.setItem('arrayLetrasUsadas', arrayLetrasClickadas);
-//} else{
-    // for (let j = 0; j < arrayLetrasClickadas.length; j++) {
-    //     const letraYaUsada = arrayLetrasClickadas[j];
-    //     for (let i = 0; i < arrayLetrasClickadas.length; i++) {
-    //         if (letraYaUsada.toLowerCase() == letras[i]) {
-    //             letraCorrecta = true;
-    //             //HACER QUE NO SE COMA EL MARGIN CUANDO SE COMPLETE LA PALABRA
-    
-    //             guiones[i].style.fontSize = "50px";
-    //             guiones[i].textContent = letraYaUsada;
+
+        arrayLetrasClickadas.push(letraClickeada);
+        localStorage.setItem('arrayLetrasUsadas', arrayLetrasClickadas);
+        // console.log("Letra correcta: " + letraCorrecta);
+        // cambiarColorBotones(letraCorrecta, botonClickeado);
+   // } else {
+    //     for (let j = 0; j < arrayLetrasClickadas.length; j++) {
+    //         const letraYaUsada = arrayLetrasClickadas[j];
+    //         for (let i = 0; i < arrayLetrasClickadas.length; i++) {
+    //             if (letraYaUsada.toLowerCase() == letras[i]) {
+    //                 letraCorrecta = true;
+    //                 //HACER QUE NO SE COMA EL MARGIN CUANDO SE COMPLETE LA PALABRA
+
+    //                 guiones[i].style.fontSize = "50px";
+    //                 guiones[i].textContent = letraYaUsada;
+    //             }
     //         }
     //     }
+
     // }
-   
-}
 
     // arrayLetrasClickadas.push(letraClickeada);
     // localStorage.setItem('arrayLetrasUsadas', arrayLetrasClickadas);
