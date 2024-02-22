@@ -18,10 +18,10 @@ let errores = localStorage.getItem('errores');
 let temporizador;
 let tiempoTranscurrido;
 let usuario;
-let arrayLetrasClickadas = [];
+let arrayLetrasClickadas =[];
 let arrayLetrasCorrectas =[];
 let arrayLetrasIncorrectas = [];
-
+let letras;
 
 
 //NO FUNCIONA:
@@ -44,9 +44,10 @@ if(localStorage.getItem('arrayLetrasUsadas') == null  ){
   
     //si ya había una partida en marcha
     crearGuionesPalabra(localStorage.getItem('palabraSeleccionada')); //AQUI SE PUEDE CAMBIAR POR PALABRA SELECCIONADA DIRECTAMENTE AHORA NO?
+    document.getElementById('categoria').innerHTML = "<strong>Categoría: </strong>" + palabraCategoria;
     usuario = localStorage.getItem('usuario');
     console.log('partida ya empezada');
-//    actualizarLetrasUsadas();
+  
     //cambiarColorBotones();
     
     // document.getElementById('index').style.display='none';
@@ -63,22 +64,56 @@ actualizarLetrasUsadas();
 
 
 function actualizarLetrasUsadas() {
-    let letrasUsadas = localStorage.getItem('arrayLetrasUsadas');
-    if (letrasUsadas !== null) {
-        letrasUsadas = letrasUsadas.split(',');
-
-        // Itera sobre los botones y actualiza su estado
-        let botones = document.querySelectorAll("#contenedor-botones button");
-        botones.forEach((boton) => {
-            let letra = boton.textContent;
-            if (letrasUsadas.includes(letra)) {
-                 letraCorrecta = true;
+    setTimeout(() => {
+        let letrasCorrectas0 = localStorage.getItem('letrasCorrectas');
+        //letrasCorrectas0 =letrasCorrectas0.split('');
+    
+        let letrasIncorrectas0 = localStorage.getItem('letrasIcorrectas');
+       // letrasIcorrectas0 = letrasIncorrectas0.split('');
+    
+        let botones = document.querySelectorAll("button");
+        botones.forEach(boton => {
+          
+            if (letrasCorrectas0.includes(boton.textContent)) {
+                letraCorrecta = true;
                 cambiarColorBotones(letraCorrecta, boton);
-                
-            } 
+            } else if(letrasIncorrectas0.includes(boton.textContent)){
+                letraCorrecta = false;
+                cambiarColorBotones(letraCorrecta, boton);
+            }
+            
         });
-    }
+    }, 1);
+   
+    // let letrasUsadas = localStorage.getItem('arrayLetrasUsadas');
+    
+    //     letrasUsadas = letrasUsadas.split(',');
+
+    //     // Itera sobre los botones y actualiza su estado
+    //     let botones = document.querySelectorAll("#contenedor-botones button");
+    //     botones.forEach((boton) => {
+    //         let letra = boton.textContent;
+    //         if (letrasUsadas.includes(letra)) {
+    //             for (let i = 0; i < letras.length; i++) {
+    //                 if (letra.toLowerCase() == letras[i]) {
+    //                     letraCorrecta = true;
+    //                     //HACER QUE NO SE COMA EL MARGIN CUANDO SE COMPLETE LA PALABRA
+        
+    //                     guiones[i].style.fontSize = "50px";
+    //                     guiones[i].textContent = letra;
+    //                 }
+    //             }
+    //              letraCorrecta = true;
+    //             cambiarColorBotones(letraCorrecta, boton);
+               
+    //         } 
+    //     });
+    
 }
+
+
+
+
 
 function iniciaJuego(){
     usuario = document.getElementById('usuario').value;
@@ -242,7 +277,7 @@ function crearBotones() {
 }
 
 function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
-    let letras = palabraSeleccionada.split('');
+     letras = palabraSeleccionada.split('');
     letraCorrecta = false;
     console.log("Letras: " + letras);
     console.log("Botón: " + letraClickeada.toLowerCase());
@@ -293,7 +328,8 @@ function comprobarVictoria() {
     }
     if (ganar == true) {
         console.log("Has ganado");
-       
+        localStorage.removeItem('arrayLetrasCorrectas');
+        localStorage.removeItem('arrayLetrasIncorrectas');
         localStorage.removeItem('arrayLetrasUsadas');
         //localStorage.setItem('arrayLetrasUsadas', null);
         popup('ganar');
@@ -303,17 +339,20 @@ function comprobarVictoria() {
 
 function cambiarColorBotones(letraCorrecta, botonClickeado) {
     botonClickeado.disabled = true;
+    let letra0 =  botonClickeado.textContent;
     // arrayLetrasCorrectas = localStorage.getItem('letrasCorrectas');
     // arrayLetrasIncorrectas = localStorage.getItem('letrasIncorrectas');
     if (letraCorrecta == true) {
         // arrayLetrasCorrectas.push(botonClickeado);
-        // localStorage.setItem('letrasCorrectas: ',arrayLetrasCorrectas);
+       
+        arrayLetrasCorrectas.push(letra0);
+         localStorage.setItem('letrasCorrectas',arrayLetrasCorrectas);
         // console.log('LETRA CORRECTA: ' ,arrayLetrasCorrectas);
         botonClickeado.classList.remove("btn-light");
         botonClickeado.classList.add("btn-success");
     } else {
-        // arrayLetrasIncorrectas.push(botonClickeado);
-        // localStorage.setItem('letrasIncorrectas: ',arrayLetrasIncorrectas);
+        arrayLetrasIncorrectas.push(letra0);
+         localStorage.setItem('letrasIncorrectas',arrayLetrasIncorrectas);
         // console.log('LETRA INCORRECTA: ' ,arrayLetrasIncorrectas);
         botonClickeado.classList.remove("btn-light");
         botonClickeado.classList.add("btn-secondary");
@@ -329,7 +368,8 @@ function printErrores(letraCorrecta) {
             console.log("Has perdido");
             //localStorage.setItem('arrayLetrasUsadas', null);
             errores = 9;
-          
+            localStorage.removeItem('arrayLetrasCorrectas');
+            localStorage.removeItem('arrayLetrasIncorrectas');
             localStorage.removeItem('arrayLetrasUsadas');
             popup('perder');
             informacion();
