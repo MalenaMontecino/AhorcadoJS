@@ -18,115 +18,94 @@ let errores = localStorage.getItem('errores');
 let temporizador;
 let tiempoTranscurrido;
 let usuario;
-let arrayLetrasClickadas =[];
-let arrayLetrasCorrectas =[];
+let arrayLetrasClickadas = [];
+let arrayLetrasCorrectas = [];
 let arrayLetrasIncorrectas = [];
 let letras;
 
-
-//NO FUNCIONA:
-// los errores
-//el usuario
+let letrasCorrectas0;
 
 
-if(localStorage.getItem('arrayLetrasUsadas') == null  ){
-// para empezar de 0
+
+if (localStorage.getItem('arrayLetrasUsadas') == null) {
     crearArrayPalabras();
     seleccionarPalabraRandom(arrayPalabras);
     crearGuionesPalabra(palabraSeleccionada);
 
     errores = 0;
-    localStorage.setItem('errores',0);
+    localStorage.setItem('errores', 0);
     console.log('partida nueva');
-}else{
-    //F5
 
-  
-    //si ya había una partida en marcha
+} else {
+    //F5
+    document.getElementById('index').style.display = 'none';
+    document.getElementById('juego').style.display = 'block';
+
     crearGuionesPalabra(localStorage.getItem('palabraSeleccionada')); //AQUI SE PUEDE CAMBIAR POR PALABRA SELECCIONADA DIRECTAMENTE AHORA NO?
     document.getElementById('categoria').innerHTML = "<strong>Categoría: </strong>" + palabraCategoria;
+  
     usuario = localStorage.getItem('usuario');
     console.log('partida ya empezada');
-  
-    //cambiarColorBotones();
-    
-    // document.getElementById('index').style.display='none';
-    // document.getElementById('juego').style.display='block';
 }
-
-
-
-
 
 imagenDibujo();
 crearBotones();
 actualizarLetrasUsadas();
+actualizarLetrasEnGuiones();
 
+
+function actualizarLetrasEnGuiones() {
+    letras = palabraSeleccionada.split('');
+    letraCorrecta = false;
+    if (letrasCorrectas0 != null) {
+        for (let i = 0; i < letras.length; i++) {
+            for (let j = 0; j < letrasCorrectas0.length; j++) {
+                if (letrasCorrectas0[j].toLowerCase() === letras[i]) {
+                    letraCorrecta = true;
+                    guiones[i].style.fontSize = "50px";
+                    guiones[i].textContent = letrasCorrectas0[j];
+                }
+            }
+        }
+    }
+}
 
 function actualizarLetrasUsadas() {
-    setTimeout(() => {
-        let letrasCorrectas0 = localStorage.getItem('letrasCorrectas');
-        //letrasCorrectas0 =letrasCorrectas0.split('');
-    
-        let letrasIncorrectas0 = localStorage.getItem('letrasIcorrectas');
-       // letrasIcorrectas0 = letrasIncorrectas0.split('');
-    
-        let botones = document.querySelectorAll("button");
-        botones.forEach(boton => {
-          
+    letrasCorrectas0 = localStorage.getItem('letrasCorrectas');
+    let letrasIncorrectas0 = localStorage.getItem('letrasIncorrectas');
+
+    console.log('Letras incorrectas guardadas: ', letrasIncorrectas0);
+    let botones = document.querySelectorAll("button");
+    botones.forEach(boton => {
+        if (letrasCorrectas0 != null && letrasIncorrectas0 != null) {
             if (letrasCorrectas0.includes(boton.textContent)) {
                 letraCorrecta = true;
                 cambiarColorBotones(letraCorrecta, boton);
-            } else if(letrasIncorrectas0.includes(boton.textContent)){
+                //localStorage.getItem('arrayGuiones');
+            } else if (letrasIncorrectas0.includes(boton.textContent)) {
                 letraCorrecta = false;
                 cambiarColorBotones(letraCorrecta, boton);
-            }
-            
-        });
-    }, 1);
-   
-    // let letrasUsadas = localStorage.getItem('arrayLetrasUsadas');
-    
-    //     letrasUsadas = letrasUsadas.split(',');
 
-    //     // Itera sobre los botones y actualiza su estado
-    //     let botones = document.querySelectorAll("#contenedor-botones button");
-    //     botones.forEach((boton) => {
-    //         let letra = boton.textContent;
-    //         if (letrasUsadas.includes(letra)) {
-    //             for (let i = 0; i < letras.length; i++) {
-    //                 if (letra.toLowerCase() == letras[i]) {
-    //                     letraCorrecta = true;
-    //                     //HACER QUE NO SE COMA EL MARGIN CUANDO SE COMPLETE LA PALABRA
-        
-    //                     guiones[i].style.fontSize = "50px";
-    //                     guiones[i].textContent = letra;
-    //                 }
-    //             }
-    //              letraCorrecta = true;
-    //             cambiarColorBotones(letraCorrecta, boton);
-               
-    //         } 
-    //     });
-    
+            }
+        }
+
+    });
+
+
 }
 
-
-
-
-
-function iniciaJuego(){
+function iniciaJuego() {
     usuario = document.getElementById('usuario').value;
-    if (usuario == ''){
-       let arroba = document.getElementById('arroba');
-       arroba.style = "background-color: rgba(255, 166, 0, 0.878)";
-     
-    } else{
-       timer();
-       localStorage.setItem('usuario', usuario);
-    console.log('existe usuario', usuario);
-    document.getElementById('index').style.display='none';
-    document.getElementById('juego').style.display='block';
+    if (usuario == '') {
+        let arroba = document.getElementById('arroba');
+        arroba.style = "background-color: rgba(255, 166, 0, 0.878)";
+
+    } else {
+        timer();
+        localStorage.setItem('usuario', usuario);
+        console.log('existe usuario', usuario);
+        document.getElementById('index').style.display = 'none';
+        document.getElementById('juego').style.display = 'block';
     }
 }
 
@@ -170,13 +149,12 @@ function crearArrayPalabras() {
 }
 
 function timer() {
-     tiempoTranscurrido = 0;
+    tiempoTranscurrido = 0;
     let minutos = 0;
 
     temporizador = setInterval(() => {
         tiempoTranscurrido++;
-        //guardar_localStorage();
-
+       
         if (tiempoTranscurrido == 60) {
             tiempoTranscurrido = 0;
             minutos++;
@@ -193,19 +171,16 @@ function timer() {
 }
 
 function seleccionarPalabraRandom(arrayPalabras) {
-    // Obtener un índice aleatorio de la array
     numeroRandom = Math.floor(Math.random() * arrayPalabras.length);
 
-
-    // Obtener la palabra seleccionada
     palabraSeleccionada = arrayPalabras[numeroRandom].palabra;
     palabraDescripcion = arrayPalabras[numeroRandom].descripcion;
     palabraCategoria = arrayPalabras[numeroRandom].categoria;
     palabraImagen = arrayPalabras[numeroRandom].img;
 
     document.getElementById('categoria').innerHTML = "<strong>Categoría: </strong>" + palabraCategoria;
-    localStorage.setItem('palabraSeleccionada',palabraSeleccionada );
-    localStorage.setItem('palabraDescripcion',palabraDescripcion);
+    localStorage.setItem('palabraSeleccionada', palabraSeleccionada);
+    localStorage.setItem('palabraDescripcion', palabraDescripcion);
     localStorage.setItem('palabraCategoria', palabraCategoria);
     localStorage.setItem("palabraImagen", palabraImagen);
 }
@@ -213,50 +188,38 @@ function seleccionarPalabraRandom(arrayPalabras) {
 
 
 function crearGuionesPalabra(palabraSeleccionada) {
-    //contar cuantas letras tiene
-    longitudPalabra = palabraSeleccionada.length;  
-        
+    longitudPalabra = palabraSeleccionada.length;
+
     console.log("Longitud palabra: " + longitudPalabra);
     console.log('Palabra seleccionada: ', palabraSeleccionada);
-  
-    //mostrar tantos guiones como letras
-    for (let i = 0; i < longitudPalabra; i++) {
 
+    for (let i = 0; i < longitudPalabra; i++) {
         guion = document.createElement('p');
         guion.textContent = "_";
         guion.style.display = 'inline';
         guion.style.padding = '5px';
         guion.style.fontSize = '100px';
 
-        // Añadir el elemento de imagen al contenedor en el DOM
         let contenedorGuion = document.getElementById("contenedor-guion");
-
         contenedorGuion.style.height = '142.8px';
-
         contenedorGuion.appendChild(guion);
         guiones.push(guion);
     }
 }
 
 function imagenDibujo() {
-    // let imagenDibujo = document.createElement("img");
     let imagenDibujo = document.querySelector("#contenedor-imagen-dibujo img");
- 
     imagenDibujo.src = `/images/${errores}.png`;
-
     let contenedorImagenDibujo = document.getElementById("contenedor-imagen-dibujo");
     contenedorImagenDibujo.appendChild(imagenDibujo);
 }
 
 function crearBotones() {
-    // Obtener el contenedor de botones
     let contenedorBotones = document.getElementById("contenedor-botones");
 
-    // Crear botones para cada letra del abecedario
     for (let letra = 65; letra <= 90; letra++) { //Código ACII de las letras
         letraActual = String.fromCharCode(letra); // Pasar el código a letra
 
-        //Botón y estilos
         boton = document.createElement("button");
         boton.type = "button";
         boton.classList.add("btn", "btn-light");
@@ -266,55 +229,31 @@ function crearBotones() {
             return function () {
                 console.log("Letra seleccionada: " + letraClickeada);
                 comprobarLetraDentroPalabra(letraClickeada, botonClickeado);
-                printErrores(letraCorrecta); 
+                printErrores(letraCorrecta);
                 comprobarVictoria();
             };
         })(letraActual, boton));
-        
 
         contenedorBotones.appendChild(boton);
     }
 }
-
 function comprobarLetraDentroPalabra(letraClickeada, botonClickeado) {
-     letras = palabraSeleccionada.split('');
+    letras = palabraSeleccionada.split('');
     letraCorrecta = false;
     console.log("Letras: " + letras);
     console.log("Botón: " + letraClickeada.toLowerCase());
 
-   // if (localStorage.getItem('arrayLetrasUsadas') == null) {
-        for (let i = 0; i < letras.length; i++) {
-            if (letraClickeada.toLowerCase() == letras[i]) {
-                letraCorrecta = true;
-                //HACER QUE NO SE COMA EL MARGIN CUANDO SE COMPLETE LA PALABRA
+    for (let i = 0; i < letras.length; i++) {
+        if (letraClickeada.toLowerCase() == letras[i]) {
+            letraCorrecta = true;
 
-                guiones[i].style.fontSize = "50px";
-                guiones[i].textContent = letraClickeada;
-            }
+            guiones[i].style.fontSize = "50px";
+            guiones[i].textContent = letraClickeada;
         }
+    }
+    arrayLetrasClickadas.push(letraClickeada);
+    localStorage.setItem('arrayLetrasUsadas', arrayLetrasClickadas);
 
-        arrayLetrasClickadas.push(letraClickeada);
-        localStorage.setItem('arrayLetrasUsadas', arrayLetrasClickadas);
-        // console.log("Letra correcta: " + letraCorrecta);
-        // cambiarColorBotones(letraCorrecta, botonClickeado);
-   // } else {
-    //     for (let j = 0; j < arrayLetrasClickadas.length; j++) {
-    //         const letraYaUsada = arrayLetrasClickadas[j];
-    //         for (let i = 0; i < arrayLetrasClickadas.length; i++) {
-    //             if (letraYaUsada.toLowerCase() == letras[i]) {
-    //                 letraCorrecta = true;
-    //                 //HACER QUE NO SE COMA EL MARGIN CUANDO SE COMPLETE LA PALABRA
-
-    //                 guiones[i].style.fontSize = "50px";
-    //                 guiones[i].textContent = letraYaUsada;
-    //             }
-    //         }
-    //     }
-
-    // }
-
-    // arrayLetrasClickadas.push(letraClickeada);
-    // localStorage.setItem('arrayLetrasUsadas', arrayLetrasClickadas);
     console.log("Letra correcta: " + letraCorrecta);
     cambiarColorBotones(letraCorrecta, botonClickeado);
 }
@@ -331,7 +270,7 @@ function comprobarVictoria() {
         localStorage.removeItem('arrayLetrasCorrectas');
         localStorage.removeItem('arrayLetrasIncorrectas');
         localStorage.removeItem('arrayLetrasUsadas');
-        //localStorage.setItem('arrayLetrasUsadas', null);
+
         popup('ganar');
         informacion();
     }
@@ -339,21 +278,18 @@ function comprobarVictoria() {
 
 function cambiarColorBotones(letraCorrecta, botonClickeado) {
     botonClickeado.disabled = true;
-    let letra0 =  botonClickeado.textContent;
-    // arrayLetrasCorrectas = localStorage.getItem('letrasCorrectas');
-    // arrayLetrasIncorrectas = localStorage.getItem('letrasIncorrectas');
+    let letra0 = botonClickeado.textContent;
     if (letraCorrecta == true) {
-        // arrayLetrasCorrectas.push(botonClickeado);
-       
+
         arrayLetrasCorrectas.push(letra0);
-         localStorage.setItem('letrasCorrectas',arrayLetrasCorrectas);
-        // console.log('LETRA CORRECTA: ' ,arrayLetrasCorrectas);
+        localStorage.setItem('letrasCorrectas', arrayLetrasCorrectas);
+
         botonClickeado.classList.remove("btn-light");
         botonClickeado.classList.add("btn-success");
     } else {
         arrayLetrasIncorrectas.push(letra0);
-         localStorage.setItem('letrasIncorrectas',arrayLetrasIncorrectas);
-        // console.log('LETRA INCORRECTA: ' ,arrayLetrasIncorrectas);
+        localStorage.setItem('letrasIncorrectas', arrayLetrasIncorrectas);
+
         botonClickeado.classList.remove("btn-light");
         botonClickeado.classList.add("btn-secondary");
     }
@@ -366,7 +302,6 @@ function printErrores(letraCorrecta) {
         console.log("Nº Errores: " + errores);
         if (errores >= 9) {
             console.log("Has perdido");
-            //localStorage.setItem('arrayLetrasUsadas', null);
             errores = 9;
             localStorage.removeItem('arrayLetrasCorrectas');
             localStorage.removeItem('arrayLetrasIncorrectas');
@@ -381,22 +316,14 @@ function printErrores(letraCorrecta) {
 
 function createPopup(id) {
     let popupNode = document.querySelector(id);
-    // let overlay = popupNode.querySelector(".overlay");
-    //  let closeBtn = popupNode.querySelector(".close-btn");
 
     function openPopup(resultado) {
-        // Juego en curso se establece como false
         clearInterval(temporizador);
 
-        // Se muestra el popup
         popupNode.classList.add("active");
-
-        // Se obtiene el contenido del popup
         const popupContent = popupNode.querySelector('.popup-content');
 
         console.log("resultado", resultado);
-
-        // Se actualiza el contenido del popup según el resultado
 
         if (resultado === 'ganar') {
             tituloPopup.innerText = '¡Ganaste!';
@@ -410,15 +337,10 @@ function createPopup(id) {
                 const accion = event.target.getAttribute('data-action');
                 if (accion === 'salir') {
                     window.location.href = 'index.html';
-                   
-                    // location.reload();
+
                 } else if (accion === 'reiniciar') {
-                   // iniciaJuego();
-                 //  document.getElementById('index').style.display='none';
-                   //document.getElementById('juego').style.display='block';
-                   
-                   localStorage.clear();
-                   location.reload();
+                    localStorage.clear();
+                    location.reload();
                 }
             });
         });
@@ -438,13 +360,5 @@ function informacion() {
     let imagenElement = document.getElementById('imagen');
     imagenElement.src = palabraImagen;
 }
-
-// //Local storage 
-    // ESTADO GENERAL
-    //    - palabra selecionada
-    //    - letras ya usadas
-    //    - el numero de errores 
-    //    - si se ha ganado o perdido 
-    //    - tiempo
 
 
