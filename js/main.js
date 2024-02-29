@@ -1,47 +1,51 @@
 
-//VARIABLES
+let usuario;
+let errores = localStorage.getItem('errores');
+const MAX_ERRORES = 9;
+const MIN_ERRORES = 0;
+
+//Palabra
 let arrayPalabras;
-let numeroRandom;
 let palabraSeleccionada = localStorage.getItem('palabraSeleccionada');
 let palabraCategoria = localStorage.getItem('palabraCategoria');
 let palabraDescripcion = localStorage.getItem('palabraDescripcion');;
 let palabraImagen = localStorage.getItem('palabraImagen');
 let longitudPalabra;
-let imagenesLetras = {}; //no es array, es objeto (para asociar directamente con la letra)
-let boton;
-let letraActual;
+
+//Guiones
 let guion;
 let guiones = [];
-let letraCorrecta;
-let errores = localStorage.getItem('errores');
 
+//Timer
 let temporizador;
-let tiempoTranscurrido;
-let usuario;
+let tiempoTranscurrido = 0;
+
+//Letras [botones]
 let arrayLetrasClickadas = [];
 let arrayLetrasCorrectas = [];
 let arrayLetrasIncorrectas = [];
 let letras;
-
 let letrasCorrectas0;
+let letraCorrecta;
+let boton;
+let letraActual;
 
 
 
-if (localStorage.getItem('arrayLetrasUsadas') == null) {
+if (localStorage.getItem('arrayLetrasUsadas') == null ) {
     crearArrayPalabras();
     seleccionarPalabraRandom(arrayPalabras);
     crearGuionesPalabra(palabraSeleccionada);
-
-    errores = 0;
-    localStorage.setItem('errores', 0);
     console.log('partida nueva');
+    errores = MIN_ERRORES;
 
+    localStorage.setItem('errores', errores);
 } else {
     //F5
     document.getElementById('index').style.display = 'none';
     document.getElementById('juego').style.display = 'block';
 
-    crearGuionesPalabra(localStorage.getItem('palabraSeleccionada')); //AQUI SE PUEDE CAMBIAR POR PALABRA SELECCIONADA DIRECTAMENTE AHORA NO?
+    crearGuionesPalabra(localStorage.getItem('palabraSeleccionada')); 
     document.getElementById('categoria').innerHTML = "<strong>Categoría: </strong>" + palabraCategoria;
   
     usuario = localStorage.getItem('usuario');
@@ -50,8 +54,13 @@ if (localStorage.getItem('arrayLetrasUsadas') == null) {
 
 imagenDibujo();
 crearBotones();
-actualizarLetrasUsadas();
-actualizarLetrasEnGuiones();
+
+if (localStorage.getItem('arrayLetrasUsadas') != null) {
+    actualizarLetrasUsadas();
+    actualizarLetrasEnGuiones(); 
+    timer();
+}
+
 
 
 function actualizarLetrasEnGuiones() {
@@ -85,13 +94,9 @@ function actualizarLetrasUsadas() {
             } else if (letrasIncorrectas0.includes(boton.textContent)) {
                 letraCorrecta = false;
                 cambiarColorBotones(letraCorrecta, boton);
-
             }
         }
-
     });
-
-
 }
 
 function iniciaJuego() {
@@ -99,7 +104,6 @@ function iniciaJuego() {
     if (usuario == '') {
         let arroba = document.getElementById('arroba');
         arroba.style = "background-color: rgba(255, 166, 0, 0.878)";
-
     } else {
         timer();
         localStorage.setItem('usuario', usuario);
@@ -149,20 +153,19 @@ function crearArrayPalabras() {
 }
 
 function timer() {
-    tiempoTranscurrido = 0;
+    tiempoTranscurrido = localStorage.getItem('tiempo');
     let minutos = 0;
 
     temporizador = setInterval(() => {
         tiempoTranscurrido++;
-       
+       localStorage.setItem('tiempo', tiempoTranscurrido);
         if (tiempoTranscurrido == 60) {
             tiempoTranscurrido = 0;
             minutos++;
         }
-
         //PARA EL FORMATO 00:00
         // verifica si la variable minutos es menor que 10. 
-        //Si es verdadero, se concatena el string "0" con la variable minutos ("0" + minutos), lo que añade un cero a la izquierda.
+        //Si es verdadero, se concatena el string "0" con la variable minutos ("0" + minutos), lo que añade un cero a la izquierda
         let minutosFormateados = minutos < 10 ? "0" + minutos : minutos;
         let segundosFormateados = tiempoTranscurrido < 10 ? "0" + tiempoTranscurrido : tiempoTranscurrido;
 
@@ -171,7 +174,7 @@ function timer() {
 }
 
 function seleccionarPalabraRandom(arrayPalabras) {
-    numeroRandom = Math.floor(Math.random() * arrayPalabras.length);
+    let numeroRandom = Math.floor(Math.random() * arrayPalabras.length);
 
     palabraSeleccionada = arrayPalabras[numeroRandom].palabra;
     palabraDescripcion = arrayPalabras[numeroRandom].descripcion;
@@ -270,7 +273,8 @@ function comprobarVictoria() {
         localStorage.removeItem('arrayLetrasCorrectas');
         localStorage.removeItem('arrayLetrasIncorrectas');
         localStorage.removeItem('arrayLetrasUsadas');
-
+        localStorage.removeItem('tiempo');
+        
         popup('ganar');
         informacion();
     }
@@ -280,7 +284,6 @@ function cambiarColorBotones(letraCorrecta, botonClickeado) {
     botonClickeado.disabled = true;
     let letra0 = botonClickeado.textContent;
     if (letraCorrecta == true) {
-
         arrayLetrasCorrectas.push(letra0);
         localStorage.setItem('letrasCorrectas', arrayLetrasCorrectas);
 
@@ -300,12 +303,14 @@ function printErrores(letraCorrecta) {
         errores++;
         localStorage.setItem('errores', errores);
         console.log("Nº Errores: " + errores);
-        if (errores >= 9) {
+        if (errores >= MAX_ERRORES) {
             console.log("Has perdido");
-            errores = 9;
+            errores = MAX_ERRORES;
+            
             localStorage.removeItem('arrayLetrasCorrectas');
             localStorage.removeItem('arrayLetrasIncorrectas');
             localStorage.removeItem('arrayLetrasUsadas');
+            localStorage.removeItem('tiempo');
             popup('perder');
             informacion();
         }
@@ -345,7 +350,6 @@ function createPopup(id) {
             });
         });
     }
-
     return openPopup;
 }
 
